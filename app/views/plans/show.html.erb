@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id:</strong>
+  <%= @plan.id %>
+</p>
+
+<p>
+  <strong>Stripe:</strong>
+  <%= @plan.stripe_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @plan.name %>
+</p>
+
+<p>
+  <strong>Created at:</strong>
+  <%= @plan.created_at %>
+</p>
+
+<p>
+  <strong>Updated at:</strong>
+  <%= @plan.updated_at %>
+</p>
+
+<%= link_to 'Edit', edit_plan_path(@plan) %> |
+<%= link_to 'Back', plans_path %>

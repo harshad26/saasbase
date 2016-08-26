@@ -1,0 +1,249 @@
+<% content_for(:sidebar) do %>
+    <%= render :partial => "layouts/sidebar" %>
+<% end %>
+<div class="row">
+  <div class="col-md-8">
+
+    <%= form_for @subscription do |f| %>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">Update Plan</div>
+          <div class="panel-body">
+
+            <%= select_tag("current_plan", options_from_collection_for_select(@plans, "stripe_plan_id", "name", @subscription.stripe_plan_id), {:class => 'form-control'}) %>
+
+            <div class="pricing-table">
+              <div class="pricing-table-tab">
+                <ul class="nav nav-pills">
+                  <li class="active">
+                    <a href="#yearly" data-toggle="tab">Annually Billing<br>( Get One Month Free )</a>
+                  </li>
+                  <li>
+                    <a href="#monthly" data-toggle="tab">&nbsp;<br>Monthly Billing</a>
+                  </li>
+                </ul>
+
+                <div class="tab-content clearfix">
+                  <!-- yearly tab -->
+                  <div class="tab-pane active" id="yearly">
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name"></div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong></strong></p>
+                          <p class="plan-original-price"></p>
+                          <p class=""></p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> Personal use</li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> Unlimited projects</li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name">Small Business</div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong>$91</strong></p>
+                          <p class="plan-original-price">$99</p>
+                          <p class="">per month</p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                        <div class="panel-footer">
+                          <a id="monthly-plan-1" class="btn btn-block btn-primary" href="#">Select</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name">Office</div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong>$228</strong></p>
+                          <p class="plan-original-price">$249</p>
+                          <p class="">per month</p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                        <div class="panel-footer">
+                          <a id="monthly-plan-2" class="btn btn-block btn-primary" href="#">Select</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name">Enterprise</div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong>$458</strong></p>
+                          <p class="plan-original-price">$499</p>
+                          <p class="">per month</p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                        <div class="panel-footer">
+                          <a id="monthly-plan-3" class="btn btn-block btn-primary" href="#">Select</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- monthly tab -->
+                  <div class="tab-pane" id="monthly">
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name"></div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong></strong></p>
+                          <p class="plan-original-price"></p>
+                          <p class=""></p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> Personal use</li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> Unlimited projects</li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name">Small Business</div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong>$99</strong></p>
+                          <p class="plan-original-price"></p>
+                          <p class="">per month</p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                        <div class="panel-footer">
+                          <a id="monthly-plan-1" class="btn btn-block btn-primary" href="#">Select</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name">Office</div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong>$249</strong></p>
+                          <p class="plan-original-price"></p>
+                          <p class="">per month</p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                        <div class="panel-footer">
+                          <a id="monthly-plan-2" class="btn btn-block btn-primary" href="#">Select</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="panel price panel-blue">
+                        <div class="panel-heading arrow_box text-center">
+                          <div class="plan-name">Enterprise</div>
+                        </div>
+                        <div class="panel-body text-center">
+                          <p class="plan-price"><strong>499</strong></p>
+                          <p class="plan-original-price"></p>
+                          <p class="">per month</p>
+                        </div>
+                        <ul class="list-group list-group-flush text-center">
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info glyphicon glyphicon-ok"></i></li>
+                          <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                        </ul>
+                        <div class="panel-footer">
+                          <a id="monthly-plan-3" class="btn btn-block btn-primary" href="#">Select</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">Update Credit Card</div>
+          <div class="panel-body">
+            <p>Valid card on file ending: <strong><%= @subscription.last_4_digits %></strong></p>
+
+            <div class="form-group">
+              <label>Card Number</label>
+              <input data-stripe="number" class="form-control" type="text" size="20" placeholder="Card Number"/>
+            </div>
+
+            <div class="form-group">
+              <label>Card Verification Code</label>
+              <input data-stripe="cvc" class="form-control" type="text" size="4" placeholder="Card Verification Code"/>
+            </div>
+
+            <div class="form-group">
+              <label>Expiry Date</label>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input data-stripe="exp_month" class="form-control" type="text" size="2" placeholder="MM" data-stripe="exp-month"/>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input data-stripe="exp_year" class="form-control" type="text" size="4" placeholder="YYYY" data-stripe="exp-year"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="payment-errors-alert alert alert-danger">
+              <div class="payment-errors"></div>
+            </div>
+          </div>
+        </div>
+
+        <input type="submit" name="commit" value="Updates" class="button right">
+    <% end %>
+    </div>
+</div>

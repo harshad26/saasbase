@@ -1,0 +1,27 @@
+<%# add navigation links to this file %>
+<% if user_signed_in? %>
+    <li><%= link_to 'Dashboard', dashboards_path(current_user) %></li>
+
+    <li class="dropdown">
+      <div class="dropdown-toggle" type="button" id="settings-menu" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="true">
+        <i class="fa fa-user"></i>
+        <%= link_to current_user.email, user_session_path %>
+        <span class="caret"></span>
+      </div>
+      <ul class="dropdown-menu" aria-labelledby="settings-menu">
+        <li><%= link_to 'My Account', accounts_path %></li>
+        <li>
+          <a href="<%=Rails.configuration.faq_url%>" target="_blank">Help</a>
+        </li>
+        <div class="divider"></div>
+        <li>
+          <%= link_to 'Sign out', destroy_user_session_path, :method => 'delete' %>
+        </li>
+      </ul>
+    </li>
+<% else %>
+    <li><%= link_to 'Sign in', new_user_session_path %></li>
+    <li><%= link_to 'Sign up', new_user_registration_path %></li>
+<% end %>
+

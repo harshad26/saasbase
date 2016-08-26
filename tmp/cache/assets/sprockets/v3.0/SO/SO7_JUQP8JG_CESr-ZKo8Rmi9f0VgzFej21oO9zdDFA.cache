@@ -1,0 +1,45 @@
+I"«(function() {
+  var subscription;
+
+  jQuery(function() {
+    $('#stripe_error').hide;
+    Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+    return subscription.setupForm();
+  });
+
+  subscription = {
+    setupForm: function() {
+      return $('#new_user').submit(function() {
+        $('input[type=submit]').attr('disabled', true);
+        if ($('#number').length) {
+          subscription.processCard();
+          return false;
+        } else {
+          return true;
+        }
+      });
+    },
+    processCard: function() {
+      var card;
+      card = {
+        number: $('#number').val(),
+        cvc: $('#cvc').val(),
+        expMonth: $('#expMonth').val(),
+        expYear: $('#expYear').val()
+      };
+      return Stripe.createToken(card, subscription.handleStripeResponse);
+    },
+    handleStripeResponse: function(status, response) {
+      if (status === 200) {
+        $('#stripe_card_token').val(response.id);
+        return $('#new_user')[0].submit();
+      } else {
+        $('#stripe_error').show;
+        $('#stripe_error').text(response.error.message);
+        return $('input[type=submit]').attr('disabled', false);
+      }
+    }
+  };
+
+}).call(this);
+:ET

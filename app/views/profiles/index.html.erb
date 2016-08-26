@@ -1,0 +1,35 @@
+<% content_for(:sidebar) do %>
+    <%= render :partial => "layouts/sidebar" %>
+<% end %>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Settings</div>
+      <div class="panel-body">
+        <%= form_for @user do |f| %>
+
+            <div class="form-group">
+              <%= f.label "Email" %>
+              <%= f.text_field :email, autofocus: true,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label "Set New Password" %>
+              <%= f.text_field :password,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+            <div class="text-muted">(leave it blank if you don't want to change it)</div>
+            <br>
+            <div class="form-group">
+              <%= f.label "Confirm New Password" %>
+              <%= f.text_field :password_confirmation,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+
+            <input type="submit" name="commit" value="Update" class="btn btn-large btn-primary">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

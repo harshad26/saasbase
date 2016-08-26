@@ -1,0 +1,9 @@
+Overriding Devise to Allow Registering Without a Password
+========================
+
+For more details visit http://nikolov.me.uk/blog/2015/07/24/overriding-devise-to-skip-setting-of-password.html
+
+Use Case
+
+SignUp
+- Start with registrationController

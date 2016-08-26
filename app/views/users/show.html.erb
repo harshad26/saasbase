@@ -1,0 +1,124 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id:</strong>
+  <%= @user.id %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Encrypted password:</strong>
+  <%= @user.encrypted_password %>
+</p>
+
+<p>
+  <strong>Reset password token:</strong>
+  <%= @user.reset_password_token %>
+</p>
+
+<p>
+  <strong>Reset password sent at:</strong>
+  <%= @user.reset_password_sent_at %>
+</p>
+
+<p>
+  <strong>Remember created at:</strong>
+  <%= @user.remember_created_at %>
+</p>
+
+<p>
+  <strong>Sign in count:</strong>
+  <%= @user.sign_in_count %>
+</p>
+
+<p>
+  <strong>Current sign in at:</strong>
+  <%= @user.current_sign_in_at %>
+</p>
+
+<p>
+  <strong>Last sign in at:</strong>
+  <%= @user.last_sign_in_at %>
+</p>
+
+<p>
+  <strong>Current sign in ip:</strong>
+  <%= @user.current_sign_in_ip %>
+</p>
+
+<p>
+  <strong>Last sign in ip:</strong>
+  <%= @user.last_sign_in_ip %>
+</p>
+
+<p>
+  <strong>Created at:</strong>
+  <%= @user.created_at %>
+</p>
+
+<p>
+  <strong>Updated at:</strong>
+  <%= @user.updated_at %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Stripe customer:</strong>
+  <%= @user.stripe_customer_id %>
+</p>
+
+<p>
+  <strong>Company name:</strong>
+  <%= @user.company_name %>
+</p>
+
+<p>
+  <strong>Company address 1:</strong>
+  <%= @user.company_address_1 %>
+</p>
+
+<p>
+  <strong>Company address 2:</strong>
+  <%= @user.company_address_2 %>
+</p>
+
+<p>
+  <strong>Company city:</strong>
+  <%= @user.company_city %>
+</p>
+
+<p>
+  <strong>Company zipcode:</strong>
+  <%= @user.company_zipcode %>
+</p>
+
+<p>
+  <strong>Company country:</strong>
+  <%= @user.company_country %>
+</p>
+
+<p>
+  <strong>First name:</strong>
+  <%= @user.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @user.last_name %>
+</p>
+
+<p>
+  <strong>Card number:</strong>
+  <%= @user.card_number %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

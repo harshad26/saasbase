@@ -1,0 +1,168 @@
+<% content_for(:sidebar) do %>
+    <%= render :partial => "layouts/sidebar" %>
+<% end %>
+<div class="row">
+  <div class="col-md-8">
+    <form accept-charset="UTF-8" action="/users" class="simple_form form-vertical" id="edit_user" method="post"
+          novalidate="novalidate">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="0MqgvrTWBdeyi1PJk+91NN0YkvDTmX5+GzbWXgyl+CM=">
+      </div>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">Select or Change Plan</div>
+        <div class="panel-body">
+          <div class="form-inputs">
+            <div class="control-group">
+              <input id="user_stripe_card_token" name="user[stripe_card_token]" type="hidden">
+              <label for="card_month">Current Plan</label>
+              <div class="field">
+                <div class="control-group select optional user_plan_id">
+                  <div class="controls"><select class="select optional" id="user_plan_id" name="user[plan_id]">
+                    <option value="19">Micro Annual - $90 annual</option>
+                    <option value="18" selected="selected">Micro Monthly - $9 monthly</option>
+                    <option value="6">Pro Annual - $180 annual</option>
+                    <option value="3">Pro Monthly - $19 monthly</option>
+                    <option value="7">Premium Annual - $360 annual</option>
+                    <option value="4">Premium Monthly - $39 monthly</option>
+                  </select></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+
+              <!-- PRICE ITEM -->
+              <div class="panel price panel-blue">
+                <div class="panel-heading arrow_box text-center">
+                  <div class="plan-name">STUDIO</div>
+                </div>
+                <div class="panel-body text-center">
+                  <p class="plan-price"><strong>$20 / month</strong></p>
+                </div>
+                <ul class="list-group list-group-flush text-center">
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> Personal use</li>
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> Unlimited projects</li>
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                </ul>
+                <div class="panel-footer">
+                  <a class="btn btn-block btn-primary" href="#">Select</a>
+                </div>
+              </div>
+              <!-- /PRICE ITEM -->
+
+            </div>
+
+            <div class="col-md-4">
+
+              <!-- PRICE ITEM -->
+              <div class="panel price panel-blue">
+                <div class="panel-heading arrow_box text-center">
+                  <div class="plan-name">AGENCY</div>
+                </div>
+                <div class="panel-body text-center">
+                  <p class="plan-price"><strong>$20 / month</strong></p>
+                </div>
+                <ul class="list-group list-group-flush text-center">
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> Personal use</li>
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> Unlimited projects</li>
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                </ul>
+                <div class="panel-footer">
+                  <a class="btn btn-block btn-primary" href="#">Select</a>
+                </div>
+              </div>
+              <!-- /PRICE ITEM -->
+
+            </div>
+
+            <div class="col-md-4">
+
+              <!-- PRICE ITEM -->
+              <div class="panel price panel-blue">
+                <div class="panel-heading arrow_box text-center">
+                  <div class="plan-name">ENTERPRISE</div>
+                </div>
+                <div class="panel-body text-center">
+                  <p class="plan-price"><strong>$20 / month</strong></p>
+                </div>
+                <ul class="list-group list-group-flush text-center">
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> Personal use</li>
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> Unlimited projects</li>
+                  <li class="list-group-item"><i class="icon-ok text-info"></i> 27/7 support</li>
+                </ul>
+                <div class="panel-footer">
+                  <a class="btn btn-block btn-primary" href="#">Select</a>
+                </div>
+              </div>
+              <!-- /PRICE ITEM -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">Edit Card</div>
+        <div class="panel-body">
+          <p>Valid card on file ending: <strong>5001</strong></p>
+          <div id="card_form">
+            <div class="control-group fake optional user_card_number">
+              <label class="fake optional control-label" for="user_card_number">Credit Card Number</label>
+              <div class="controls"><input autocomplete="off" class="fake optional" id="card_number" type="text"></div>
+            </div>
+            <div class="field">
+              <label for="card_code">Security Code on Card (CVV)</label>
+              <input class="span1" id="card_code" type="text">
+            </div>
+            <div class="field">
+              <label for="card_month">Card Expiration</label>
+              <select class="span2" id="card_month">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+
+              <select class="span1" id="card_year">
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+                <option value="2031">2031</option>
+              </select>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-actions">
+        <input class="btn btn btn-large btn-primary" name="commit" type="submit" value="Update">
+      </div>
+
+    </form>
+  </div>
+</div>

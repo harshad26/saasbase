@@ -1,0 +1,3 @@
+SaaSBase is created out of frustration trying to find a working example of Ruby on Rail + Stripe recurring payment.
+There are a number of outdated tutorials and blog posts on this topic.  This initial version actually
+work on RoR 4.x and Stripe.

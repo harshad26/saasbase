@@ -1,0 +1,49 @@
+<html><head></head><body><div id="wrapper" style="max-width:700px;width:700px;margin: 200px auto 0">
+  <div>
+    <table style="width:100%">
+      <tbody><tr>
+        <td style="text-align:left;"><h1><%= @branding.name %></h1></td>
+        <td style="text-align:right;"><h1 style="text-align:right;color:#777;font-size:24px">PAID</h1></td>
+      </tr>
+      </tbody></table>
+  </div>
+  <div>
+    <p><strong>Invoice Date:</strong> <%= Time.at(@invoice.date).strftime("%d-%m-%Y") %></p>
+    <p><strong>Customer: <%= @account.company_name %></strong> </p>
+    <p><%= @account.first_name %> <%= @account.last_name%></p>
+    <p style="margin:0;color:#777"><%= @account.company_address_1 %></p>
+    <p style="margin:0;color:#777"><%= @account.company_address_2 %></p>
+    <p style="margin:0;color:#777"><%= @account.company_city %></p>
+    <p style="margin:0;color:#777"><%= @account.company_country %></p>
+    <p style="margin:0;color:#777"><%= @account.company_zipcode %></p>
+    <br>
+    <p><strong>Order:</strong> <%= @invoice.id %></p>
+  </div>
+  <div>
+    <table style="width:100%;border:1px solid black;text-align:left">
+      <thead style="background:#CCC">
+      <tr>
+        <th style="border:1px solid black;font-weight:400;">Description</th>
+        <th style="border:1px solid black;font-weight:400;">Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td style="border:1px solid black"><%= @branding.name %> Subscription Fee</td>
+        <td style="border:1px solid black"><%= number_to_currency(@invoice.amount_due) %></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black"><strong>Total</strong></td>
+        <td style="border:1px solid black"><strong><%= number_to_currency(@invoice.amount_due) %></strong></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="padding-top:100px;border-top:3px solid #CCC;margin-top:15px">
+    <p style="margin:0;color:#777"><%= @branding.name %></p>
+    <p style="margin:0;color:#777"><%= @branding.address_line_1 %></p>
+    <p style="margin:0;color:#777"><%= @branding.address_line_2 %></p>
+    <p style="margin:0;color:#777"><%= @branding.city %></p>
+  </div>
+</div>
+</body></html>

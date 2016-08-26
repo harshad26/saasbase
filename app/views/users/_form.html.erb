@@ -1,0 +1,34 @@
+<%= simple_form_for(@user) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :id %>
+    <%= f.input :email %>
+    <%= f.input :encrypted_password %>
+    <%= f.input :reset_password_token %>
+    <%= f.input :reset_password_sent_at %>
+    <%= f.input :remember_created_at %>
+    <%= f.input :sign_in_count %>
+    <%= f.input :current_sign_in_at %>
+    <%= f.input :last_sign_in_at %>
+    <%= f.input :current_sign_in_ip %>
+    <%= f.input :last_sign_in_ip %>
+    <%= f.input :created_at %>
+    <%= f.input :updated_at %>
+    <%= f.input :name %>
+    <%= f.input :stripe_customer_id %>
+    <%= f.input :company_name %>
+    <%= f.input :company_address_1 %>
+    <%= f.input :company_address_2 %>
+    <%= f.input :company_city %>
+    <%= f.input :company_zipcode %>
+    <%= f.input :company_country %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :card_number %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

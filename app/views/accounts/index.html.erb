@@ -1,0 +1,58 @@
+<% content_for(:sidebar) do %>
+    <%= render :partial => "layouts/sidebar" %>
+<% end %>
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Account</div>
+      <div class="panel-body">
+        <%= form_for @account do |f| %>
+
+            <div class="form-group">
+              <%= f.label "Company Name" %>
+              <%= f.text_field :company_name, autofocus: true,
+                               placeholder: "", class: 'input-medium form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label "Company Address line 1" %>
+              <%= f.text_field :company_address_1,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Company Address line 2" %>
+              <%= f.text_field :company_address_2,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Company City" %>
+              <%= f.text_field :company_city,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Company Country" %>
+              <%= f.text_field :company_country,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Company Zip Code" %>
+              <%= f.text_field :company_zipcode,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label "First Name" %>
+              <%= f.text_field :first_name,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Last Name" %>
+              <%= f.text_field :last_name,
+                               placeholder: "", class: 'form-control' %>
+            </div>
+            <input type="submit" name="commit" value="Update" class="btn btn-large btn-primary">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
