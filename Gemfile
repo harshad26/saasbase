@@ -50,7 +50,7 @@ gem 'stripe', '1.21'
 #gem 'activeadmin', '~> 1.0.0.pre2'
 
 gem 'minitest', '5.5.0'
-gem 'turbolinks'
+# gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'mysql2', '0.4.2'
 gem 'econfig', require: 'econfig/rails'

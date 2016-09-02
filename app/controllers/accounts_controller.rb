@@ -22,7 +22,6 @@ class AccountsController < ApplicationController
   end
 
   private
-  
   def account_parameters
     params[:account].permit(:company_name, :company_address_1, :company_address_2,
                   :company_city, :company_country, :company_zipcode,
