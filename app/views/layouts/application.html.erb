@@ -7,7 +7,8 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API_KEY']%>&libraries=places&callback=initAutocomplete"
+      async defer></script>
   <%= csrf_meta_tags %>
   <%= tag :meta, :name => "stripe-key", :content => Rails.configuration.stripe[:publishable_key] %>
 </head>
@@ -15,7 +16,7 @@
 <header>
   <%= render 'layouts/navigation' %>
 </header>
-<div id="main-container" class="container-fluid">
+<div id="main-container" class="container">
   <%= render 'layouts/messages' %>
   <div id="side-content">
     <%= yield :sidebar %>

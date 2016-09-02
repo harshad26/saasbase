@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @store.name %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @store.address %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @store.phone %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @store.email %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @store.url %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @store.description %>
+</p>
+
+<p>
+  <strong>Categories:</strong>
+  <%= @store.categories %>
+</p>
+
+<p>
+  <strong>Custom field 1:</strong>
+  <%= @store.custom_field_1 %>
+</p>
+
+<p>
+  <strong>Custom field 2:</strong>
+  <%= @store.custom_field_2 %>
+</p>
+
+<p>
+  <strong>Custom field 3:</strong>
+  <%= @store.custom_field_3 %>
+</p>
+
+<p>
+  <strong>Image url:</strong>
+  <%= @store.image_url %>
+</p>
+
+<p>
+  <strong>Custom marker url:</strong>
+  <%= @store.custom_marker_url %>
+</p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @store.lat %>
+</p>
+
+<p>
+  <strong>Long:</strong>
+  <%= @store.long %>
+</p>
+
+<%= link_to 'Edit', edit_store_path(@store) %> |
+<%= link_to 'Back', stores_path %>

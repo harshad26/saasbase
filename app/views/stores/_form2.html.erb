@@ -1,0 +1,145 @@
+<div class="row">
+  <%= simple_form_for(@store) do |f| %>
+    <%= f.error_notification %>
+      <div class="col-md-3">
+        <div class="form-inputs">
+          <%= f.input :name %>
+          <%= f.input :address, :input_html => { :id => "autocomplete" } %>
+          <%= f.input :phone %>
+          <%= f.input :email %>
+          <%= f.input :url %>
+          <%= f.input :description %>
+        </div>
+        <div class="form-actions">
+          <%= f.button :submit, :value => "Save changes", :class => 'btn btn-primary' %>
+        </div>
+        <%= link_to 'Or Go Back', stores_path %>
+      </div>
+      <div class="col-md-3">
+          <%= f.input :categories %>
+          <p class="help-block">List one or more catgories separated by commas. ex: category1, category2. NOTE: your category cannot itself contain a comma or it will be split into 2 categories</p>
+          <%= f.input :custom_field_1 %>
+          <%= f.input :custom_field_2 %>
+          <%= f.input :custom_field_3 %>
+          <%= f.input :image_url %>
+          <p class="help-block">URL that points to a hosted image or logo for this store to appear in the store list and pop-window.</p>
+          <%= f.input :custom_marker_url %>
+          <p class="help-block">add a custom map marker/pin with a URL that points to a hosted marker image.</p>
+      </div>
+      <div class="col-md-6">
+        <div class="alert alert-danger">
+          <a class="close" data-dismiss="alert">×</a>
+          <p>Only edit latitude/longitude if you want to override Google geo-coding.</p>
+          <strong>Or Use the Map Tool Below.</strong>
+            <%= f.input :lat, :input_html => { :id => "store_latitude"} %>
+            <%= f.input :long, :input_html => { :id => "store_longitude"} %>
+
+          <div id="map"></div>
+          <div class="form-group" style="margin-top:35px">
+            <label for="map_address">To update map view start typing an address and select</label>
+            <input id="map_address" placeholder="Enter a location" class="form-control" type="text" data-toggle="popover" data-content="Please click on one of the suggestions below" data-title="Tips" data-placement="top" data-trigger="manual" autocomplete="off"></input>
+          </div>
+          <div class="alert alert-info">
+          <p><strong>Use this tool to manually set/change the lat/long of this store.</strong></p>
+          <p>1) for small adjustments, just drag the pin. The lat/long will update, then you can hit save.</p>
+          <p>2) For bigger adjustments, enter an address below then double-click to create a new pin. Drag it to the exact location </p>
+          <p><strong>You must still hit the Save button above to save changes</strong></p>
+          </div>
+
+        </div>
+      </div>
+
+  <% end %>
+</div>
+
+
+
+<script type="text/javascript">
+  var autocomplete,map,lat,lng;
+  lat = $('#store_latitude').val();
+  lng = $('#store_longitude').val();
+
+  function initAutocomplete() {
+
+    var myLatLng = new google.maps.LatLng(lat,lng);
+    var myOptions = {
+        zoom: 18,
+        center: myLatLng,
+        scrollwheel: false,
+        panControl: true,
+        zoomControl: true,
+        mapTypeControl: true,
+        scaleControl: true,
+        streetViewControl: true,
+        overviewMapControl: true,
+        disableDoubleClickZoom: true,
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        tilt: 0
+    }
+    map = new google.maps.Map(document.getElementById('map'), myOptions);
+
+    marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        draggable: true,
+        animation: google.maps.Animation.DROP
+    });
+
+    map.addListener('dblclick', function(event) {
+      marker.setPosition(event.latLng);
+    });
+
+    marker.addListener('dragend', function(event) {
+      position = marker.getPosition();
+      $('#store_latitude').val(position.lat());
+      $('#store_longitude').val(position.lng());
+    });
+
+    input = $('#map_address')[0];
+
+    map_address = new google.maps.places.Autocomplete(input);
+
+    autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),{types: ['geocode']});
+
+
+    // When the user selects an address from the dropdown, populate the address
+    // fields in the form.
+    autocomplete.addListener('place_changed', function(){
+      var place = autocomplete.getPlace();
+
+      var geocoder = new google.maps.Geocoder();
+      var address = place.formatted_address;
+      geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            position = results[0].geometry.location;
+            $('#store_latitude').val(position.lat());
+            $('#store_longitude').val(position.lng());
+        } 
+      });
+    });
+    map_address.addListener('place_changed', function(){
+      var place = map_address.getPlace();
+      map.setCenter(place.geometry.location);
+    });
+  }
+
+  $(document).ready( function() {
+      $('#map_address').popover();
+      $('#map_address').bind('keypress', function(e){
+          if(e.keyCode == 13) {
+              e.preventDefault();
+              $('#map_address').popover('show');
+              setTimeout(function(){
+                  $('#map_address').popover('hide');
+              }, 5000);
+          }
+      });
+      $('#autocomplete').bind('keypress', function(e){
+          if(e.keyCode == 13) {
+              e.preventDefault();
+          }
+      });
+  } );
+
+</script>
+

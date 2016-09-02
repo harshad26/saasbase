@@ -1,0 +1,71 @@
+<div class="row">
+  <%= simple_form_for(@store) do |f| %>
+    <%= f.error_notification %>
+      <div class="col-md-6">
+        <div class="form-inputs">
+          <%= f.input :name %>
+          <%= f.input :address, :input_html => { :id => "autocomplete" } %>
+          <%= f.input :phone %>
+          <%= f.input :email %>
+          <%= f.input :url %>
+          <%= f.input :description %>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+          <%= f.input :categories %>
+          <p class="help-block">List one or more catgories separated by commas. ex: category1, category2. NOTE: your category cannot itself contain a comma or it will be split into 2 categories</p>
+          <%= f.input :custom_field_1 %>
+          <%= f.input :custom_field_2 %>
+          <%= f.input :custom_field_3 %>
+          <%= f.input :image_url %>
+          <p class="help-block">URL that points to a hosted image or logo for this store to appear in the store list and pop-window.</p>
+          <%= f.input :custom_marker_url %>
+          <p class="help-block">add a custom map marker/pin with a URL that points to a hosted marker image.</p>
+          <%= f.hidden_field :lat,  :id => "store_latitude" %>
+          <%= f.hidden_field :long, :id => "store_longitude" %>
+          
+        <div class="form-actions">
+          <%= f.button :submit, :value => "Save Store", :class => 'btn btn-primary' %>
+        </div>
+        <%= link_to 'Or Go Back', stores_path %>
+      </div>
+
+  <% end %>
+</div>
+<script type="text/javascript">
+      var autocomplete;
+
+      function initAutocomplete() {
+
+
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),{types: ['geocode']});
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', function(){
+          var place = autocomplete.getPlace();
+
+          var geocoder = new google.maps.Geocoder();
+          var address = place.formatted_address;
+          geocoder.geocode( { 'address': address}, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              position = results[0].geometry.location;
+              $('#store_latitude').val(position.lat());
+              $('#store_longitude').val(position.lng());
+            } 
+          });
+        });
+
+      }
+
+  $(document).ready( function() {
+      $('#autocomplete').bind('keypress', function(e){
+          if(e.keyCode == 13) {
+              e.preventDefault();
+          }
+      });
+  } );
+</script>
