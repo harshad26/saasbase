@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 <div id="dashboard" class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">Your Pricing Tables</h3>
@@ -7,22 +7,41 @@
     <a href="#snippet_modal" class="btn btn-default pull-left" data-toggle="modal" id="snippet_modal_button">
       <i class="fa fa-file"></i> Embed Code
     </a>
-    <a href="/stores/new" class="btn btn-default pull-left" id="new_modal">
+    <a href="<%= new_store_path %>" class="btn btn-default pull-left" id="new_modal">
       <i class="fa fa-plus"></i> Add New Store
     </a>
-    <a href="/users/2695/stores/bulk_upload" class="btn btn-default pull-left" data-toggle="modal"
+    <a href="<%= bulk_upload_path %>" class="btn btn-default pull-left" data-toggle="modal"
        id="bulk-upload-modal-button">
       <i class="fa fa-plus"></i> Bulk Upload
     </a>
-    <a href="/users/2695/stores.csv" class="btn btn-default pull-left">
+    <a href="<%= stores_path(format: :csv) %>" class="btn btn-default pull-left">
       <i class="fa fa-download"></i> Download CSV
     </a>
-    <a href="https://www.saasbase.com/destroy_all" class="btn btn-default pull-left"
+    <a href="<%= destroy_all_path(@store) %>" class="btn btn-default pull-left"
        data-confirm="Are you sure? This action cannot be undone.">
       <i class="fa fa-trash"></i> Delete All Stores
     </a>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-md-3">
+    <form accept-charset="UTF-8" action="/stores" class="form-search" id="search-form" method="get">
+    <div style="margin:0;padding:0;display:inline">
+      <input name="utf8" value="✓" type="hidden">
+    </div>
+    <input class="form-control" id="search" name="search" placeholder="Search stores by typing here..." type="text">
+    <div>
+      <input class="btn btn-default" name="commit" value="Search" type="submit">
+      <a href="/stores" class="btn btn-default clear-search">Clear</a>
+    </div>
+    </form>
+  </div>
+  <div class="col-md-3">
+    <span id="store_count" class="pull-right"> Total locations : <%= @stores.count %></span>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-md-12">
     <%= form_for :store, :url => {:controller => "stores", :action => "destroy_multiple"}, :method=> :post do |f| %>
@@ -63,10 +82,25 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="col-md-12">
+    <%unless @stores.present? %>
+      <div class="well">
+      <p style="text-align:center"><span class="label label-important">No locations found.</span> Try another search or <a href="/stores">start over</a>.</p>
+      </div>
+    <% end %>
+  </div>
+</div>
 <style type="text/css">
   #stores_table td {
     max-width:100px;
     overflow-x:auto
+  }
+  form {
+    margin:0 0 18px
+  }
+  .label-important {
+    background-color:#b94a48
   }
 </style>
 <script type="text/javascript">

@@ -45,7 +45,7 @@ gem 'paper_trail', '~> 3.0.6'
 
 # Use stripe for payment - subscription can be transfer in case of acquisition
 gem 'stripe', '1.21'
-
+gem 'protected_attributes'
 # Use activeadmin for creating admin dashboards
 #gem 'activeadmin', '~> 1.0.0.pre2'
 

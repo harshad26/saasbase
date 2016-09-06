@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="well bulk-upload">
+      <div class="single_actions">
+        <h3>Bulk Upload with a CSV file</h3>
+      </div>
+
+      <div class="bulk-upload-form">
+        <%= form_tag import_path, multipart: true do %>
+          <label for="file">File to Upload</label>
+          <%= file_field_tag :file, accept:"text/csv", id:"upload-file" %>
+          <%= submit_tag "Upload" , id:"upload_button", class:'btn btn-default', value:"Upload", disabled:"disabled" %>
+        <% end %>
+      </div>
+    </div>
+    <h3>How to Upload</h3>
+    <p>1) If this is your first upload. <a href="#" target="_blank">Open this template in Google Docs</a> and click File &gt; Make a Copy </p>
+    <p>2) Watch the video below to make sure you add locations in the right format.</p>
+    <iframe src="" allowfullscreen="" frameborder="0" height="350" width="580"></iframe>
+    <p>3) Go to File &gt; Download As &gt; Comma-seperated values (.csv) and upload the file to Storemapper</p>
+    <p>4) It may take a few minutes for the import to complete. You will get an email when it finishes.</p>
+    <p>
+      5) Problems? Read this <a href="" target="_blank">blog post</a>
+      or <a href="mailto:help@saasbae.com?subject=[Saasbase Bulk Upload]">Email us for support</a>.
+      </p>
+    <p>6) Address data spread across multiple columns? Check out <a href="#" target="_blank">this 30 second fix for it</a>.</p>
+  </div>
+</div>
+
+
+<style type="text/css">
+  .bulk-upload-form {
+    margin: 25px 0;
+  }
+  input[type="file"] {
+    height: 28px;
+    margin-top: 4px;
+    line-height: 28px;
+    display: inline-block;
+    width: 210px;
+  }
+  label {
+    display:block;
+    margin-bottom:5px;
+    color:#333
+  }
+</style>
+
+<script type="text/javascript">
+  $("#upload-file").change(function(){
+    var selected =this.files.length > 0;
+    if (selected) {
+      $("#upload_button").prop('disabled', false);
+    }
+  });
+
+</script>
