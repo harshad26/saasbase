@@ -25,10 +25,10 @@
           <%= f.hidden_field :lat,  :id => "store_latitude" %>
           <%= f.hidden_field :long, :id => "store_longitude" %>
           
-        <div class="form-actions">
+       
           <%= f.button :submit, :value => "Save Store", :class => 'btn btn-primary' %>
-        </div>
-        <%= link_to 'Or Go Back', stores_path %>
+        
+        <%= link_to 'Or Go Back', stores_path, :class => 'btn' %>
       </div>
 
   <% end %>
