@@ -1,12 +1,5 @@
 Rails.application.routes.draw do
-  resources :stores do
-
-  end
-  # resources :stores do
-  #   member do
-  #     post 'destroy_multiple' => "stores#destroy_multiple", :as => :destroy_multiple
-  #   end
-  # end
+  resources :stores
 
   root to: 'visitors#index'
   #devise_for :users, :controllers => { :registrations => 'devise/registrations' }
@@ -26,6 +19,6 @@ Rails.application.routes.draw do
   get '/bulk_upload', to: 'stores#bulk_upload', as: 'bulk_upload'
   post '/stores/import' => "stores#import", :as => 'import'
   get '/destroy_all' => "stores#destroy_all", :as => 'destroy_all'
-  
+  get '/mapdata/:id' => "stores#mapdata", :as => 'mapdata'
 
 end
