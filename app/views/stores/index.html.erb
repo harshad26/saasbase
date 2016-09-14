@@ -4,7 +4,7 @@
     <h3 class="panel-title">Your Pricing Tables</h3>
   </div>
   <div class="panel-body">
-    <a href="#snippet_modal" class="btn btn-default pull-left" data-toggle="modal" id="snippet_modal_button">
+    <a class="btn btn-default pull-left" data-toggle="modal" data-target="#myModal" id="snippet_modal_button">
       <i class="fa fa-file"></i> Embed Code
     </a>
     <a href="<%= new_store_path %>" class="btn btn-default pull-left" id="new_modal">
@@ -72,8 +72,8 @@
               <td><%= store.url %></td>
               <td><%= store.lat %></td>
               <td><%= store.long %></td>
-              <td><%= link_to 'Edit', edit_store_path(store) %></td>
-              <td><%= link_to 'Delete', store, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <td><%= link_to 'Edit', edit_store_path(store) %> | 
+              <%= link_to 'Delete', store, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
           <% end %>
         </tbody>
@@ -91,10 +91,46 @@
     <% end %>
   </div>
 </div>
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Setting up your widget</b></h4>
+      </div>
+      <div class="modal-body">
+        <strong>Embed the code</strong>
+        <br />
+        <strong>
+        Paste the following code where you want your store locator
+        </strong>
+        <form class="vertical-form">
+          <textarea class="code_snippet" onclick="this.focus();this.select()" readonly="readonly"><div id='saasbase' ><p>Store Locator is loading from <a href='https://www.saasbase.com'>Saasbase store locator software</a>...</p></div><script data-id="MySaasbase" data-saasbase-id='<%=current_user.account_id%>' data-saasbase-host='<%=ENV['HOST']%>'>(function(){ var script = document.createElement('script'); script.type= 'text/javascript'; script.async = true;script.src = '<%=ENV['HOST']%>/js/widget.js'; var entry = document.getElementsByTagName('script')[0]; entry.parentNode.insertBefore(script, entry); }());</script></textarea>
+          <span class="copy_success"></span>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span>click to highlight and copy with CTRL + C</span>
+        <strong>OR</strong>
+        <a class="btn btn-primary" href="">Email This</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
 <style type="text/css">
   #stores_table td {
-    max-width:100px;
-    overflow-x:auto
+    min-width:50px;
+    max-width: 150px;
+    overflow-x:auto;
   }
   form {
     margin:0 0 18px
@@ -102,8 +138,51 @@
   .label-important {
     background-color:#b94a48
   }
+  #myModal .code_snippet {
+    cursor: pointer;
+    width: 350px;
+    height: 170px;
+  }
+  textarea[readonly] {
+      background-color: #f5f5f5;
+      border-color: #ddd;
+  }
+  #myModal form {
+    width: 350px;
+    margin: auto;
+  }
+  textarea {
+    display:inline-block;
+    padding:4px;
+    margin-bottom:9px;
+    font-size:13px;
+    line-height:18px;
+    color:#555;
+    border:1px solid #ccc;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px
+  }
+  .modal-footer {
+    padding: 14px 15px 15px;
+    margin-bottom: 0;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    -webkit-border-radius: 0 0 6px 6px;
+    -moz-border-radius: 0 0 6px 6px;
+    border-radius: 0 0 6px 6px;
+    -webkit-box-shadow: inset 0 1px 0 #fff;
+    -moz-box-shadow: inset 0 1px 0 #fff;
+    box-shadow: inset 0 1px 0 #fff;
+    *zoom: 1;
+    text-align: left;
+  }
+  .modal-footer .btn {
+    float: right;    
+  }
 </style>
 <script type="text/javascript">
+
   $(document).ready(function(){
     $('input[type="checkbox"][id^=store_]').change(function(){
       var a = $("input[type='checkbox'][id^=store_]");
@@ -133,3 +212,4 @@
     });
   });
 </script>
+

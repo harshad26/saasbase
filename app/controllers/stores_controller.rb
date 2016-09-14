@@ -112,6 +112,12 @@ class StoresController < ApplicationController
     end
   end
 
+  def mapdata
+    @stores = Store.all.where("account_id = ?",params[:id]);
+    output = 'eqfeed_callback('+{stores: @stores}.to_json+');'
+    render :json => output
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_store
