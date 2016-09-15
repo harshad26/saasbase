@@ -1,9 +1,12 @@
 development:
+  database: saasbase_development
   adapter: postgresql
   encoding: unicode
-  database: saasbase_development
   pool: 5
   host: localhost
+  username: postgres
+  password: postgres
+
 
 test:
   adapter: postgresql
@@ -13,6 +16,10 @@ test:
   host: localhost
 
 production:
+  database: saasbase_production
   adapter: postgresql
   encoding: unicode
-  url: <%= ENV['DATABASE_URL'] %>
+  pool: 5
+  host: localhost
+  username: postgres
+  password: postgres
