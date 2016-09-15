@@ -125,6 +125,8 @@ window.onload = function () {
     });
 
     var script2 = document.createElement('script');
+    script2.type  = 'text/javascript';
+    script2.async = true;
     script2.src = host+'/mapdata/'+token;
     entry.parentNode.insertBefore(script2, entry);
 
@@ -159,7 +161,6 @@ window.onload = function () {
   function eqfeed_callback(results) {
     response = results;
     eqfeed_callback1();
-
   }
   function eqfeed_callback1() {
     for (var i = 0; i < response.stores.length; i++) {

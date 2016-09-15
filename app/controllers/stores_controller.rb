@@ -1,6 +1,6 @@
 class StoresController < ApplicationController
   before_action :set_store, only: [:show, :edit, :update, :destroy]
-
+  protect_from_forgery except: :mapdata
   # GET /stores
   # GET /stores.json
   def index
@@ -115,7 +115,9 @@ class StoresController < ApplicationController
   def mapdata
     @stores = Store.all.where("account_id = ?",params[:id]);
     output = 'eqfeed_callback('+{stores: @stores}.to_json+');'
-    render :json => output
+    respond_to do |format|
+      format.js { render :json => output }
+    end
   end
 
   private
