@@ -19,7 +19,7 @@ window.onload = function () {
   var entry = document.getElementsByTagName('script')[0];
   entry.parentNode.insertBefore(script, entry);
 
-  var iwstyle = document.createElement('div')
+  var iwstyle = document.createElement('div');
   iwstyle.style.display = "none";
   iwstyle.innerHTML = '<div id="info-content"><table><tr id="iw-name-row" class="iw_table_row"><td id="iw-name"></td></tr><tr id="iw-address-row" class="iw_table_row"><td id="iw-address"></td></tr><tr id="iw-phone-row" class="iw_table_row"><td id="iw-phone"></td></tr></table></div>'
   x.parentNode.appendChild(iwstyle);
@@ -120,7 +120,7 @@ window.onload = function () {
     lng = '72.57';
     latLngA = new google.maps.LatLng(lat,lng);
     map = new google.maps.Map(document.getElementById('map'), {
-      center: latLngA,
+      // center: latLngA,
       zoom: 12
     });
 
@@ -160,6 +160,8 @@ window.onload = function () {
 
   function eqfeed_callback(results) {
     response = results;
+    latLngX = new google.maps.LatLng(response.stores[0].lat,response.stores[0].long);
+    map.setCenter(latLngX);
     eqfeed_callback1();
   }
   function eqfeed_callback1() {

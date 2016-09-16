@@ -6,10 +6,11 @@
   <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "SaasBase" %>">
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <script src="jquery-1.12.4.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['MAP_API_KEY']%>&libraries=places&callback=initAutocomplete"
-      async defer></script>
+  <script type="text/javascript">
+    window.mapKey = "<%= ENV['MAP_API_KEY']%>";
+  </script>
   <%= csrf_meta_tags %>
   <%= tag :meta, :name => "stripe-key", :content => Rails.configuration.stripe[:publishable_key] %>
 </head>
