@@ -19,7 +19,7 @@ window.onload = function () {
   var entry = document.getElementsByTagName('script')[0];
   entry.parentNode.insertBefore(script, entry);
 
-  var iwstyle = document.createElement('div')
+  var iwstyle = document.createElement('div');
   iwstyle.style.display = "none";
   iwstyle.innerHTML = '<div id="info-content"><table><tr id="iw-name-row" class="iw_table_row"><td id="iw-name"></td></tr><tr id="iw-address-row" class="iw_table_row"><td id="iw-address"></td></tr><tr id="iw-phone-row" class="iw_table_row"><td id="iw-phone"></td></tr></table></div>'
   x.parentNode.appendChild(iwstyle);

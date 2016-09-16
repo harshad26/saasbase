@@ -27,8 +27,8 @@
       geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           position = results[0].geometry.location;
-          $('#store_latitude').val(position.lat().toFixed(2));
-          $('#store_longitude').val(position.lng().toFixed(2));
+          $('#store_latitude').val(position.lat().toFixed(5));
+          $('#store_longitude').val(position.lng().toFixed(5));
         } 
       });
     });
@@ -64,12 +64,14 @@
 
     map.addListener('dblclick', function(event) {
       marker.setPosition(event.latLng);
+      $('#store_latitude').val(event.latLng.lat().toFixed(5));
+      $('#store_longitude').val(event.latLng.lng().toFixed(5));
     });
 
     marker.addListener('dragend', function(event) {
       position = marker.getPosition();
-      $('#store_latitude').val(position.lat().toFixed(2));
-      $('#store_longitude').val(position.lng().toFixed(2));
+      $('#store_latitude').val(position.lat().toFixed(5));
+      $('#store_longitude').val(position.lng().toFixed(5));
     });
 
     input = $('#map_address')[0];
