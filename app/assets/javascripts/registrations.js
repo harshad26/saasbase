@@ -38,9 +38,8 @@ jQuery(function ($) {
         }
     };
 
-
     $('#new_user').submit(function (e) {
-        if ($("input").find("[data-stripe='numnber']").length != 0) {
+        if ($('input[data-stripe="number"]').length != 0) {
             var $form = $(this);
 
             // Disable the submit button to prevent repeated clicks
