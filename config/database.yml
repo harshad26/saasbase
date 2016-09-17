@@ -16,10 +16,10 @@ test:
   host: localhost
 
 production:
-  database: saasbase_production
+  database: ENV['database_url']
   adapter: postgresql
   encoding: unicode
   pool: 5
   host: localhost
-  username: postgres
-  password: postgres
+  username: ENV['database_username']
+  password: ENV['database_password']
