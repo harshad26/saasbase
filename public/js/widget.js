@@ -163,6 +163,28 @@ window.onload = function () {
     latLngX = new google.maps.LatLng(response.stores[0].lat,response.stores[0].long);
     map.setCenter(latLngX);
     eqfeed_callback1();
+    getLocation();
+  }
+
+  function getLocation () {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        infoWindow.setPosition(pos);
+        infoWindow.setContent('Location found.');
+        map.setCenter(pos);
+      }, function() {
+        alert('Location not found.');
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      alert("Browser doesn't support Geolocation");
+    }
   }
   function eqfeed_callback1() {
     for (var i = 0; i < response.stores.length; i++) {
