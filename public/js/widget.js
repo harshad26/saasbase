@@ -117,7 +117,7 @@ window.onload = function () {
 
   function initAutocomplete() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(showPosition, err);
     } else { 
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -169,11 +169,15 @@ window.onload = function () {
     latLngX = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     map.setCenter(latLngX);
   }
+  
+  function err(position) {
+    alert('your location could not found');
+  }
 
   function eqfeed_callback(results) {
     response = results;
-    // latLngX = new google.maps.LatLng(response.stores[0].lat,response.stores[0].long);
-    // map.setCenter(latLngX);
+    latLngX = new google.maps.LatLng(response.stores[0].lat,response.stores[0].long);
+    map.setCenter(latLngX);
     eqfeed_callback1();
   }
   function eqfeed_callback1() {
