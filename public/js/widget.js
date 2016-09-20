@@ -117,7 +117,8 @@ window.onload = function () {
 
   function initAutocomplete() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, err);
+        var options = {timeout:60000};
+        navigator.geolocation.getCurrentPosition(showPosition, errorHandler, options);
     } else { 
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -170,7 +171,7 @@ window.onload = function () {
     map.setCenter(latLngX);
   }
   
-  function err(position) {
+  function errorHandler(position) {
     alert('your location could not found');
   }
 
