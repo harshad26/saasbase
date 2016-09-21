@@ -3,6 +3,8 @@
   <component name="dataSourceStorageLocal">
     <data-source name="Rails saasbase: development" uuid="1661f10a-3d35-4e9a-a3c8-fad803c30422">
       <first-sync>true</first-sync>
+      <user-name>postgres</user-name>
+      <user-password>dfdadfc5dfd9dfdedfcddfd8dfcfdfd9</user-password>
     </data-source>
   </component>
 </project>
