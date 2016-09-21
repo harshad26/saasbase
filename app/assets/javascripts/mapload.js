@@ -10,14 +10,16 @@
 
   function initAutocomplete() {
       var autocomplete = document.getElementById('autocomplete');
+
+      var autoAddress = document.getElementById('autoaddress');
       var map = document.getElementById('map');
 
       if (autocomplete != null) {
           newstoreAutoload();
+      }
 
-          if (map != null) {
-              editstoreAutoload();
-          }
+      if (autoAddress != null && map != null) {
+          editstoreAutoload();
       }
   }
 
