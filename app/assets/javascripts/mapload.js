@@ -9,14 +9,25 @@
   }
 
   function initAutocomplete() {
-    newstoreAutoload();
-    editstoreAutoload();
+      var autocomplete = document.getElementById('autocomplete');
+
+      var autoAddress = document.getElementById('autoaddress');
+      var map = document.getElementById('map');
+
+      if (autocomplete != null) {
+          newstoreAutoload();
+      }
+
+      if (autoAddress != null && map != null) {
+          editstoreAutoload();
+      }
   }
 
   function newstoreAutoload() {
     var autocomplete;
 
-    var input =document.getElementById('autocomplete');
+    var input = document.getElementById('autocomplete');
+
     autocomplete = new google.maps.places.Autocomplete(input,{types: ['geocode']});
 
     autocomplete.addListener('place_changed', function(){
