@@ -114,6 +114,7 @@ window.onload = function () {
   var markers = [];
   var latLngA;
   var response;
+  var t;
   
   function key_callback(response) {
     mykey = response.keys[0].key;
@@ -123,12 +124,17 @@ window.onload = function () {
     script.src = document.location.protocol + '//maps.googleapis.com/maps/api/js?key='+mykey+'&libraries=geometry,places&callback=initAutocomplete';
     var entry = document.getElementsByTagName('script')[0];
     entry.parentNode.insertBefore(script, entry);
+
+    $.getJSON('http://ipinfo.io', function(data){
+      console.log(data);
+      var array = data['loc'].split(',');
+      lat = array[0];
+      lng = array[1];
+    });
   }
 
   function initAutocomplete() {
 
-    lat = '23.02';
-    lng = '72.57';
     latLngA = new google.maps.LatLng(lat,lng);
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
