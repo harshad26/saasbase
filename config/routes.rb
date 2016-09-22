@@ -21,5 +21,6 @@ Rails.application.routes.draw do
   post '/stores/import' => "stores#import", :as => 'import'
   get '/destroy_all' => "stores#destroy_all", :as => 'destroy_all'
   get '/mapdata/:id' => "stores#mapdata", :as => 'mapdata'
+  get '/find_key/:id' => "stores#find_key", :as => 'find_key'
 
 end
