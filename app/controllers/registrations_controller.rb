@@ -19,6 +19,10 @@ class RegistrationsController < Devise::RegistrationsController
       resource.account_id = @account.id
       resource.save
 
+      @api_key = ApiKey.create
+      resource.api_key_id = @api_key.id
+      resource.save 
+
       @plan = Plan.find(params[:plan_id])
       @subscription = Subscription.new
       @subscription.account_id = @account.id

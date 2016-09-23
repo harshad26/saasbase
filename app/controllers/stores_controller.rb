@@ -1,6 +1,6 @@
 class StoresController < ApplicationController
   before_action :set_store, only: [:show, :edit, :update, :destroy]
-  protect_from_forgery except: :mapdata
+  protect_from_forgery :except => [:mapdata, :find_key]
   # GET /stores
   # GET /stores.json
   def index
@@ -115,6 +115,15 @@ class StoresController < ApplicationController
   def mapdata
     @stores = Store.all.where("account_id = ?",params[:id]);
     output = 'eqfeed_callback('+{stores: @stores}.to_json+');'
+    respond_to do |format|
+      format.js { render :json => output }
+    end
+  end
+
+  def find_key
+    user = User.find(params[:id]);
+    key =ApiKey.find(user.api_key_id).API_Key if user.api_key_id;
+    output = 'key_callback({"keys":[{"key":"'+key+'"}]});'
     respond_to do |format|
       format.js { render :json => output }
     end

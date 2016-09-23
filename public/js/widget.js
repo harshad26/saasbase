@@ -1,7 +1,7 @@
 window.onload = function () {
   document.getElementById('loading').style.display = "none";
 }
-
+  var mykey;
   var token = document
     .querySelector('script[data-id="MySaasbase"][data-saasbase-id]')
     .getAttribute('data-saasbase-id');
@@ -12,12 +12,14 @@ window.onload = function () {
   var y = x.getElementsByTagName("p");
   y[0].style.display = "none";
 
-  var script = document.createElement('script');
-  script.type  = 'text/javascript';
-  script.async = true;
-  script.src = document.location.protocol + '//maps.googleapis.com/maps/api/js?key=AIzaSyAFYf2nUJRQ_E53keoY4ujTviB7CQ582Gc&libraries=geometry,places&callback=initAutocomplete';
-  var entry = document.getElementsByTagName('script')[0];
-  entry.parentNode.insertBefore(script, entry);
+  var keyscript = document.createElement('script');
+  keyscript.type  = 'text/javascript';
+  keyscript.async = true;
+  keyscript.src = host+'/find_key/'+token;
+  var keyentry = document.getElementsByTagName('script')[0];
+  keyentry.parentNode.insertBefore(keyscript, keyentry);
+
+
 
   var iwstyle = document.createElement('div');
   iwstyle.style.display = "none";
@@ -110,25 +112,40 @@ window.onload = function () {
 
   var saasbase_zip, map, places, infowindow;
   var markers = [];
-  var MARKER_PATH = 'https://maps.gstatic.com/intl/en_us/mapfiles/marker_green';
-  var hostnameRegexp = new RegExp('^https?://.+?/');
-  var latLngA,latLngB;
+  var latLngA;
   var response;
+  var t;
+  
+  function key_callback(response) {
+    mykey = response.keys[0].key;
+    var script = document.createElement('script');
+    script.type  = 'text/javascript';
+    script.async = true;
+    script.src = document.location.protocol + '//maps.googleapis.com/maps/api/js?key='+mykey+'&libraries=geometry,places&callback=initAutocomplete';
+    var entry = document.getElementsByTagName('script')[0];
+    entry.parentNode.insertBefore(script, entry);
+
+    $.getJSON('http://ipinfo.io', function(data){
+      console.log(data);
+      var array = data['loc'].split(',');
+      lat = array[0];
+      lng = array[1];
+    });
+  }
 
   function initAutocomplete() {
-    lat = '23.02';
-    lng = '72.57';
+
     latLngA = new google.maps.LatLng(lat,lng);
     map = new google.maps.Map(document.getElementById('map'), {
-      // center: latLngA,
       zoom: 12
     });
+    map.setCenter(latLngA);
 
     var script2 = document.createElement('script');
     script2.type  = 'text/javascript';
     script2.async = true;
     script2.src = host+'/mapdata/'+token;
-    entry.parentNode.insertBefore(script2, entry);
+    keyentry.parentNode.insertBefore(script2, keyentry);
 
     infowindow = new google.maps.InfoWindow({
       content: document.getElementById('info-content')
@@ -137,16 +154,14 @@ window.onload = function () {
     saasbase_zip = new google.maps.places.Autocomplete((document.getElementById('saasbase_zip')),{types: ['geocode']});
     places = new google.maps.places.PlacesService(map);
 
-
-
     saasbase_zip.addListener('place_changed', function(){
     	 var place = saasbase_zip.getPlace();
+       var lat1 = place.geometry.location.lat();
+       var lng1 = place.geometry.location.lng();
+       latLngA = new google.maps.LatLng(lat1,lng1);
         if (place.geometry) {
           map.panTo(place.geometry.location);
           map.setZoom(12);
-          var latitude1 = place.geometry.location.lat();
-          var longitude1 = place.geometry.location.lng();
-          latLngA = new google.maps.LatLng(latitude1,longitude1);
           
           clearResults();
           clearMarkers();
@@ -160,17 +175,20 @@ window.onload = function () {
 
   function eqfeed_callback(results) {
     response = results;
-    latLngX = new google.maps.LatLng(response.stores[0].lat,response.stores[0].long);
-    map.setCenter(latLngX);
+    for (var i = 0; i < response.stores.length; i++) {
+      var latLngT = new google.maps.LatLng(response.stores[i].lat,response.stores[i].long);
+      var d = caldis(latLngT);
+      response.stores[i].distance= d;
+    }
     eqfeed_callback1();
   }
   function eqfeed_callback1() {
     for (var i = 0; i < response.stores.length; i++) {
       var store = response.stores[i];
-      latLngB = new google.maps.LatLng(store.lat,store.long);
-      var y = caldis();
+      var latLngT = new google.maps.LatLng(store.lat,store.long);
+      
       markers[i] = new google.maps.Marker({
-        position: latLngB,
+        position: latLngT,
         map: map
       });
 
@@ -183,18 +201,34 @@ window.onload = function () {
         document.getElementById('iw-address').textContent = my_store.address;
         document.getElementById('iw-phone').textContent = my_store.phone;
       });
-      addResult(response, i,y);
     }
+    sortIt();
+  }
+
+  function sortIt() {
+    response.stores = sortByKey(response.stores);
+    for (var i = 0; i < response.stores.length; i++) {
+      addResult(response, i);
+    }
+  }
+
+  function sortByKey(array) {
+      return array.sort(function(a, b) {
+          return a.distance - b.distance
+      });
   }
 
   function search() {
     var count = 0;
     for (var i = 0; i < response.stores.length; i++) {
       var store = response.stores[i];
-      latLngB = new google.maps.LatLng(store.lat,store.long);
-      var y = caldis();
+      var latLngT = new google.maps.LatLng(store.lat,store.long);
+      
+      var d = caldis(latLngT);
+      response.stores[i].distance= d;
+
       markers[i] = new google.maps.Marker({
-        position: latLngB,
+        position: latLngT,
         animation: google.maps.Animation.DROP
       });
         
@@ -208,12 +242,11 @@ window.onload = function () {
       	document.getElementById('iw-phone').textContent = my_store.phone;
 
       });
-      if (y <10) {
+      if (d <10) {
         setTimeout(dropMarker(i), i * 100);
-        addResult(response, i,y);
+        addResult(response, i);
         count++;
       }
-
     }
     if (count == 0) {
       document.getElementById('saasbase_span').style.display = 'block';
@@ -223,8 +256,8 @@ window.onload = function () {
     
   }
 
-  function caldis() {
-  	var x = google.maps.geometry.spherical.computeDistanceBetween (latLngA, latLngB);
+  function caldis(temp) {
+  	var x = google.maps.geometry.spherical.computeDistanceBetween (latLngA, temp);
   	return (x/1000).toFixed(1);
   }
 
@@ -244,7 +277,7 @@ window.onload = function () {
     };
   }
 
-  function addResult(result, i,y) {
+  function addResult(result, i) {
     var results = document.getElementById('results');
 
     var tr = document.createElement('tr');
@@ -259,7 +292,7 @@ window.onload = function () {
     var name = document.createTextNode(result.stores[i].name);
     var address = document.createTextNode(result.stores[i].address);
     var phone = document.createTextNode(result.stores[i].phone);
-    var distance = document.createTextNode(y + ' kms away');
+    var distance = document.createTextNode( result.stores[i].distance+ ' kms away');
 
     var nameLi = document.createElement('li');
     nameTd.appendChild(nameLi);

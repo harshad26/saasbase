@@ -7,7 +7,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  before_filter :set_branding
+  before_filter :set_branding, :set_mapKey
+
+  def set_mapKey
+    if current_user.present?
+      @user = User.find(current_user.id)
+      @mapKey = ApiKey.find(@user.api_key_id).API_Key if @user.api_key_id
+    end
+  end
 
   def set_branding
     @branding = Branding.first
