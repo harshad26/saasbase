@@ -125,12 +125,18 @@ window.onload = function () {
     var entry = document.getElementsByTagName('script')[0];
     entry.parentNode.insertBefore(script, entry);
 
-    $.getJSON('http://ipinfo.io', function(data){
+    var ipinfo = document.createElement('script');
+    ipinfo.src = "http://ipinfo.io?callback=parseResponse";
+    
+    var ipinfoEntry = document.getElementsByTagName('script')[0];
+    ipinfoEntry.parentNode.insertBefore(ipinfo, ipinfoEntry);
+  }
+
+  function parseResponse(data) {
       console.log(data);
       var array = data['loc'].split(',');
       lat = array[0];
       lng = array[1];
-    });
   }
 
   function initAutocomplete() {
