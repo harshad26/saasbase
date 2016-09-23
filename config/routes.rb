@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :api_keys
   resources :stores
 
   root to: 'visitors#index'
@@ -22,5 +21,8 @@ Rails.application.routes.draw do
   get '/destroy_all' => "stores#destroy_all", :as => 'destroy_all'
   get '/mapdata/:id' => "stores#mapdata", :as => 'mapdata'
   get '/find_key/:id' => "stores#find_key", :as => 'find_key'
+
+  get '/api_key' => "settings#index"
+  patch '/api_key/:id' => "settings#update"
 
 end
