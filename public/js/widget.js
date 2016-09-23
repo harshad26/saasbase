@@ -112,10 +112,28 @@ window.onload = function () {
 
   var saasbase_zip, map, places, infowindow;
   var markers = [];
-  var latLngA;
+  var latLngA ;
   var response;
-  var t;
+  var t,flag;
+  var lat,lng;
   
+  function getLocation() {
+    if (navigator.geolocation) {
+      var options = {timeout:60000};
+      navigator.geolocation.getCurrentPosition(
+        function(position){
+          lat = position.coords.latitude;
+          lng = position.coords.longitude;
+          initAutocomplete1();
+        },
+        function(){
+          initAutocomplete1();
+          console.log('we are unable to find ur geo location');
+        },options
+      );
+    }
+  }
+
   function key_callback(response) {
     mykey = response.keys[0].key;
     var script = document.createElement('script');
@@ -133,18 +151,19 @@ window.onload = function () {
   }
 
   function parseResponse(data) {
-      console.log(data);
-      var array = data['loc'].split(',');
-      lat = array[0];
-      lng = array[1];
+    var array = data['loc'].split(',');
+    lat = array[0];
+    lng = array[1];
+    getLocation();
   }
+  function initAutocomplete() {}
+  function initAutocomplete1() {
 
-  function initAutocomplete() {
-
-    latLngA = new google.maps.LatLng(lat,lng);
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
     });
+
+    latLngA = new google.maps.LatLng(lat,lng);
     map.setCenter(latLngA);
 
     var script2 = document.createElement('script');

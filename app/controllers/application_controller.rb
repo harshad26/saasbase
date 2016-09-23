@@ -11,8 +11,13 @@ class ApplicationController < ActionController::Base
 
   def set_mapKey
     if current_user.present?
-      @user = User.find(current_user.id)
-      @mapKey = ApiKey.find(@user.api_key_id).API_Key if @user.api_key_id
+      @setting = Setting.find_by_account_id(current_user.account_id)
+      
+      key = @setting.google_api_key
+      if key != nil
+        @mapKey = key
+      end
+
     end
   end
 

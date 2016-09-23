@@ -122,7 +122,12 @@ class StoresController < ApplicationController
 
   def find_key
     user = User.find(params[:id]);
-    key =ApiKey.find(user.api_key_id).API_Key if user.api_key_id;
+    @setting = Setting.find_by_account_id(user.account_id)
+    
+    key = @setting.google_api_key
+    if key == nil
+      key = '123'
+    end
     output = 'key_callback({"keys":[{"key":"'+key+'"}]});'
     respond_to do |format|
       format.js { render :json => output }
