@@ -12,8 +12,19 @@ class ApplicationController < ActionController::Base
   def set_mapKey
     if current_user.present?
       @setting = Setting.find_by_account_id(current_user.account_id)
-      
+
+      if @setting.nil?
+        d1 = DateTime.now
+        @setting = Setting.create!([{
+                              account_id: current_user.account_id,
+                              google_api_key: nil,
+                              created_at: d1,
+                              updated_at: d1
+                          }])
+      end
+
       key = @setting.google_api_key
+
       if key != nil
         @mapKey = key
       end
