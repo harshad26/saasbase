@@ -31,7 +31,7 @@ aside {
 }
 @media (min-width: 767px) {
   section {
-    padding: 100px 0;
+    padding: 10px 0;
   }
 }
 .well {
@@ -520,7 +520,7 @@ a.light-text:focus {
   .intro-video .brand-heading,
   .intro-img-half .brand-heading,
   .intro-slider-half .brand-heading {
-    font-size: 70px;
+    font-size: 40px;
   }
 }
 .intro-img,
@@ -883,7 +883,7 @@ a.light-text:focus {
     color: #f4f5f7;
     color: rgba(244, 245, 247, 0.8);
     padding: 10px 5px;
-    font-style: italic;
+/*    font-style: italic;*/
     margin: 0 30px;
     font-size: 14px;
     border-top: 1px solid rgba(244, 245, 247, 0.5);
@@ -1603,10 +1603,10 @@ ul#filters li button.btn-link.active {
   line-height: 24px;
 }
 .pricing-col .pricing-table .content .price .period {
-  font-style: italic;
+/*  font-style: italic; */
   color: rgba(62, 68, 77, 0.5);
-  font-size: 12px;
-  display: block;
+/*  font-size: 12px; */
+/*  display: block; */
 }
 .pricing-col .pricing-table .content ul.pricing-items {
   padding: 55px 0 0;
@@ -1617,7 +1617,7 @@ ul#filters li button.btn-link.active {
   border-top: 1px solid rgba(62, 68, 77, 0.2);
 }
 .pricing-col .pricing-table .content ul.pricing-items li.item {
-  font-style: italic;
+  /*font-style: italic; */
 }
 .pricing-col .pricing-table .content ul.pricing-items li.pricing-button {
   text-align: center;

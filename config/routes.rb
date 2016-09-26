@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :plans
   match '/edit_card',   to: 'subscriptions#edit_card',   via: 'get'
   match '/update_card', to: 'subscriptions#update_card', via: 'post'
-  get "settings", to: "profiles#index"
+  get '/profile', to: "profiles#index"
   resources :settings
 
   post '/stores/destroy_multiple', to: 'stores#destroy_multiple'
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get '/mapdata/:id' => "stores#mapdata", :as => 'mapdata'
   get '/find_key/:id' => "stores#find_key", :as => 'find_key'
 
-  get '/api_key' => "settings#index"
-  patch '/api_key/:id' => "settings#update"
+  get '/settings' => "settings#index"
+  patch '/settings/:id' => "settings#update"
 
 end
