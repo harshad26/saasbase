@@ -8,6 +8,7 @@ class StoresController < ApplicationController
       @stores = Store.where("account_id = ?",current_user.account_id).search(params[:search])
     else
       @stores = Store.all.where("account_id = ?",current_user.account_id) if current_user
+      @stores = Store.paginate(:page => params[:page])
     end
     respond_to do |format|
       format.html
@@ -83,11 +84,11 @@ class StoresController < ApplicationController
   end
 
   def destroy_all
-    Store.destroy_all
+    Store.where(account_id: current_user.account_id).destroy_all
     respond_to do |format|
       format.html { redirect_to stores_url, notice: 'Store was successfully destroyed.' }
       format.json { head :no_content }
-    end    
+    end
   end
 
   def bulk_upload
@@ -97,12 +98,36 @@ class StoresController < ApplicationController
   def import
     file = params[:file].path
 
-    CSV.foreach(file, :headers => true ) do |row|
-      # abort row['id'].inspect
+    CSV.foreach(file, {:headers => true, :encoding => 'ISO-8859-1'}) do |row|
+      # newRow = []
+      # cnt = 0
+      # 0..row.count do |n|
+      #   # abort row[cnt].inspect if cnt==3
+      #   tmp = row[cnt].split "\t"
+      #   # abort tmp.inspect if cnt==3
+      #   newRow = newRow + tmp
 
-      store = Store.where(account_id: row["account_id"]).first || new
+      #   cnt+=1
+      # end
+
+      store = Store.where(id: row["id"]).first || new
       # Store.create!(row.to_hash)
-      store.attributes = row.to_hash.slice(*row.to_hash.keys)
+      # store.attributes = row.to_hash.slice(*row.to_hash.keys)
+      store.name = row[1]
+      store.address = row[2]
+      store.phone = row[3]
+      store.email = row[4]
+      store.url = row[5]
+      store.description = row[6]
+      store.categories = row[7]
+      store.custom_field_1 = row[8]
+      store.custom_field_2 = row[9]
+      store.custom_field_3 = row[10]
+      store.image_url = row[11]
+      store.custom_marker_url = row[12]
+      store.lat = row[12]
+      store.long = row[14]
+      store.account_id = current_user.account_id
       store.save!
     end    
 

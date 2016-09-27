@@ -80,9 +80,14 @@
     <% end %>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-12" style="text-align:center">
+    <%= will_paginate @stores %>
+  </div>
+</div>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-12 center">
     <% unless @stores.present? %>
         <div class="well">
           <p style="text-align:center"><span class="label label-important">No locations found.</span> Try another search
