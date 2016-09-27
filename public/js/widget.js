@@ -134,29 +134,38 @@ window.onload = function () {
 
   function key_callback(response) {
     mykey = response.keys[0].key;
+
     var script = document.createElement('script');
     script.type  = 'text/javascript';
     script.async = true;
     script.src = document.location.protocol + '//maps.googleapis.com/maps/api/js?key='+mykey+'&libraries=geometry,places&callback=initAutocomplete';
     var entry = document.getElementsByTagName('script')[0];
-    entry.parentNode.insertBefore(script, entry);
+    entry.parentNode.insertBefore(script, entry);    
+  }
 
+  function getLatLng() {
     var ipinfo = document.createElement('script');
     ipinfo.src = "http://ipinfo.io?callback=parseResponse";
-    
     var ipinfoEntry = document.getElementsByTagName('script')[0];
     ipinfoEntry.parentNode.insertBefore(ipinfo, ipinfoEntry);
   }
-
   function parseResponse(data) {
     var array = data['loc'].split(',');
     lat = array[0];
     lng = array[1];
-    // console.log('2:'+lat+'2:'+lng);
-
+    console.log('2:'+lat+'2:'+lng);
+    initAutocomplete1();
   }
   function initAutocomplete() {
-    // console.log('1:'+lat+'1:'+lng);
+    if (lat == null && lng == null) {
+      console.log('3:'+lat+'3:'+lng);
+      getLatLng();
+    }else{
+      initAutocomplete1();
+    }
+  }  
+  function initAutocomplete1() {
+    console.log('1:'+lat+'1:'+lng);
     latLngA = new google.maps.LatLng(lat,lng);
 
     map = new google.maps.Map(document.getElementById('map'), {
