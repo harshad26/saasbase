@@ -152,7 +152,7 @@ window.onload = function () {
     var array = data['loc'].split(',');
     lat = array[0];
     lng = array[1];
-    getLocation();
+    initAutocomplete1();
   }
   function initAutocomplete() {}
   function initAutocomplete1() {
