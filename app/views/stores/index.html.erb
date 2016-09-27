@@ -1,53 +1,52 @@
-
 <div id="dashboard" class="panel panel-primary">
   <div class="panel-heading">
-    <h3 class="panel-title">Your Store Database</h3>
+    <h3 class="panel-title">Your Store Database
+      <div class="pull-right">Total locations : <%= @stores.count %></div>
+    </h3>
   </div>
   <div class="panel-body">
-    <a class="btn btn-default pull-left" data-toggle="modal" data-target="#myModal" id="snippet_modal_button">
+    <a class="btn btn-primary pull-left" data-toggle="modal" data-target="#myModal" id="snippet_modal_button">
       <i class="fa fa-file"></i> Embed Code
     </a>
-    <a href="<%= new_store_path %>" class="btn btn-default pull-left" id="new_modal">
+    <a href="<%= new_store_path %>" class="btn btn-primary pull-left" id="new_modal">
       <i class="fa fa-plus"></i> Add New Store
     </a>
-    <a href="<%= bulk_upload_path %>" class="btn btn-default pull-left" data-toggle="modal"
+    <a href="<%= bulk_upload_path %>" class="btn btn-primary pull-left" data-toggle="modal"
        id="bulk-upload-modal-button">
       <i class="fa fa-plus"></i> Bulk Upload
     </a>
-    <a href="<%= stores_path(format: :csv) %>" class="btn btn-default pull-left">
+    <a href="<%= stores_path(format: :csv) %>" class="btn btn-primary pull-left">
       <i class="fa fa-download"></i> Download CSV
     </a>
-    <a href="<%= destroy_all_path(@store) %>" class="btn btn-default pull-left"
+    <a href="<%= destroy_all_path(@store) %>" class="btn btn-primary pull-left"
        data-confirm="Are you sure? This action cannot be undone.">
       <i class="fa fa-trash"></i> Delete All Stores
     </a>
   </div>
 </div>
 
+
 <div class="row">
-  <div class="col-md-3">
-    <form accept-charset="UTF-8" action="/stores" class="form-search" id="search-form" method="get">
+  <form accept-charset="UTF-8" action="/stores" class="form-search" id="search-form" method="get">
     <div style="margin:0;padding:0;display:inline">
       <input name="utf8" value="✓" type="hidden">
     </div>
-    <input class="form-control" id="search" name="search" placeholder="Search stores by typing here..." type="text">
-    <div>
-      <input class="btn btn-default" name="commit" value="Search" type="submit">
-      <a href="/stores" class="btn btn-default clear-search">Clear</a>
+    <div class="col-md-6 buffer-bottom">
+      <input class="form-control" id="search" name="search" placeholder="Search stores by typing here..." type="text">
     </div>
-    </form>
-  </div>
-  <div class="col-md-3">
-    <span id="store_count" class="pull-right"> Total locations : <%= @stores.count %></span>
-  </div>
+    <div class="col-md-6 buffer-bottom">
+      <input class="btn btn-primary .btn-group" name="commit" value="Search" type="submit">
+      <a href="/stores" class="btn btn-default btn-group clear-search">Clear</a>
+    </div>
+  </form>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <%= form_for :store, :url => {:controller => "stores", :action => "destroy_multiple"}, :method=> :post do |f| %>
-      <input id="delete-all" class="btn btn-danger" data-confirm="Deleted all selected stores?" name="commit" style="display: none;" value="Delete Selected" type="submit">
-      <table id="stores_table" class="table table-striped table-bordered table-compressed">
-        <thead>
+    <%= form_for :store, :url => {:controller => "stores", :action => "destroy_multiple"}, :method => :post do |f| %>
+        <input id="delete-all" class="btn btn-danger" data-confirm="Deleted all selected stores?" name="commit" style="display: none;" value="Delete Selected" type="submit">
+        <table id="stores_table" class="table table-striped table-bordered table-compressed">
+          <thead>
           <tr>
             <th><input id="select-all" name="select-all" value="1" type="checkbox"></th>
             <th>Name</th>
@@ -57,37 +56,43 @@
             <th>URL</th>
             <th>Lat</th>
             <th>Long</th>
-            <th colspan="3"></th>
+            <th>Action</th>
           </tr>
-        </thead>
+          </thead>
 
-        <tbody>
+          <tbody>
           <% @stores.each do |store| %>
-            <tr>
-              <td><%= check_box_tag "stores[]", store.id, false, :id => "store_#{store.id}", :class=>"delete-checkbox" %></td>
-              <td><%= store.name %></td>
-              <td><%= store.address %></td>
-              <td><%= store.phone %></td>
-              <td><%= store.email %></td>
-              <td><%= store.url %></td>
-              <td><%= store.lat %></td>
-              <td><%= store.long %></td>
-              <td><%= link_to 'Edit', edit_store_path(store) %> | 
-              <%= link_to 'Delete', store, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-            </tr>
+              <tr>
+                <td><%= check_box_tag "stores[]", store.id, false, :id => "store_#{store.id}", :class => "delete-checkbox" %></td>
+                <td><%= store.name %></td>
+                <td><%= store.address %></td>
+                <td><%= store.phone %></td>
+                <td><%= store.email %></td>
+                <td><%= store.url %></td>
+                <td><%= store.lat %></td>
+                <td><%= store.long %></td>
+                <td><%= link_to 'Edit', edit_store_path(store) %> |
+                  <%= link_to 'Delete', store, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+              </tr>
           <% end %>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
     <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" style="text-align:center">
+    <%= will_paginate @stores %>
   </div>
 </div>
 
 <div class="row">
-  <div class="col-md-12">
-    <%unless @stores.present? %>
-      <div class="well">
-      <p style="text-align:center"><span class="label label-important">No locations found.</span> Try another search or <a href="/stores">start over</a>.</p>
-      </div>
+  <div class="col-md-12 center">
+    <% unless @stores.present? %>
+        <div class="well">
+          <p style="text-align:center"><span class="label label-important">No locations found.</span> Try another search
+            or <a href="/stores">start over</a>.</p>
+        </div>
     <% end %>
   </div>
 </div>
@@ -105,12 +110,21 @@
       </div>
       <div class="modal-body">
         <strong>Embed the code</strong>
-        <br />
+        <br/>
         <strong>
-        Paste the following code where you want your store locator
+          Paste the following code where you want your store locator
         </strong>
         <form class="vertical-form">
-          <textarea class="code_snippet" onclick="this.focus();this.select()" readonly="readonly"><div id='saasbase' ><p>Store Locator is loading from <a href='https://www.saasbase.com'>Saasbase store locator software</a>...</p></div><script data-id="MySaasbase" data-saasbase-id='<%=current_user.account_id%>' data-saasbase-host='<%=root_url%>'>(function(){ var script = document.createElement('script'); script.type= 'text/javascript'; script.async = true;script.src = '<%=root_url%>js/widget.js'; var entry = document.getElementsByTagName('script')[0]; entry.parentNode.insertBefore(script, entry); }());</script></textarea>
+          <textarea class="code_snippet" onclick="this.focus();this.select()" readonly="readonly"><div id='saasbase'>
+            <p>Store Locator is loading from <a href='https://www.saasbase.com'>Saasbase store locator software</a>...
+            </p></div><script data-id="MySaasbase" data-saasbase-id='<%= current_user.account_id %>' data-saasbase-host='<%= root_url %>'>(function () {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = '<%=root_url%>js/widget.js';
+            var entry = document.getElementsByTagName('script')[0];
+            entry.parentNode.insertBefore(script, entry);
+          }());</script></textarea>
           <span class="copy_success"></span>
         </form>
       </div>
@@ -128,41 +142,48 @@
 
 <style type="text/css">
   #stores_table td {
-    min-width:50px;
+    min-width: 50px;
     max-width: 150px;
-    overflow-x:auto;
+    overflow-x: auto;
   }
+
   form {
-    margin:0 0 18px
+    margin: 0 0 18px
   }
+
   .label-important {
-    background-color:#b94a48
+    background-color: #b94a48
   }
+
   #myModal .code_snippet {
     cursor: pointer;
     width: 350px;
     height: 170px;
   }
+
   textarea[readonly] {
-      background-color: #f5f5f5;
-      border-color: #ddd;
+    background-color: #f5f5f5;
+    border-color: #ddd;
   }
+
   #myModal form {
     width: 350px;
     margin: auto;
   }
+
   textarea {
-    display:inline-block;
-    padding:4px;
-    margin-bottom:9px;
-    font-size:13px;
-    line-height:18px;
-    color:#555;
-    border:1px solid #ccc;
-    -webkit-border-radius:3px;
-    -moz-border-radius:3px;
-    border-radius:3px
+    display: inline-block;
+    padding: 4px;
+    margin-bottom: 9px;
+    font-size: 13px;
+    line-height: 18px;
+    color: #555;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px
   }
+
   .modal-footer {
     padding: 14px 15px 15px;
     margin-bottom: 0;
@@ -177,38 +198,39 @@
     *zoom: 1;
     text-align: left;
   }
+
   .modal-footer .btn {
-    float: right;    
+    float: right;
   }
 </style>
 <script type="text/javascript">
 
-  $(document).ready(function(){
-    $('input[type="checkbox"][id^=store_]').change(function(){
+  $(document).ready(function () {
+    $('input[type="checkbox"][id^=store_]').change(function () {
       var a = $("input[type='checkbox'][id^=store_]");
-        if(a.filter(":checked").length == 0){
-          $('#delete-all').hide();
-          $('#select-all').prop('checked', false);
-        } else {
-          $('#delete-all').show();
-        }
-        if(a.length == a.filter(":checked").length){
-          $('#select-all').prop('checked', true);
-        }
+      if (a.filter(":checked").length == 0) {
+        $('#delete-all').hide();
+        $('#select-all').prop('checked', false);
+      } else {
+        $('#delete-all').show();
+      }
+      if (a.length == a.filter(":checked").length) {
+        $('#select-all').prop('checked', true);
+      }
 
     });
-    $('#select-all').change(function(){
-      if(this.checked) {
+    $('#select-all').change(function () {
+      if (this.checked) {
         $('input[type="checkbox"][id^=store_]').prop('checked', true);
 
         var a = $("input[type='checkbox'][id^=store_]");
-        if(a.filter(":checked").length != 0){
-            $('#delete-all').show();
+        if (a.filter(":checked").length != 0) {
+          $('#delete-all').show();
         }
       } else {
         $('#delete-all').hide();
         $('input[type="checkbox"][id^=store_]').prop('checked', false);
-      }    
+      }
     });
   });
 </script>

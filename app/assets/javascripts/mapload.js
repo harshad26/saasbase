@@ -1,5 +1,5 @@
   window.onload = function() {
-    var myKey = window.mapKey;
+    var myKey = window.envMapKey;
     var script = document.createElement('script');
     script.type  = 'text/javascript';
     script.async = true;

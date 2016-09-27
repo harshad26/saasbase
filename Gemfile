@@ -48,6 +48,7 @@ gem 'stripe', '1.21'
 gem 'protected_attributes'
 # Use activeadmin for creating admin dashboards
 #gem 'activeadmin', '~> 1.0.0.pre2'
+gem 'will_paginate', '~> 3.1.1'
 
 gem 'minitest', '5.5.0'
 # gem 'turbolinks'

@@ -5,6 +5,36 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-CreatePlan.call(stripe_plan_id: 'saasbase_starter', name: 'SaaSBase Starter', amount: 2999, interval: 'month', currency: 'usd', trial_period_days: 7)
-CreatePlan.call(stripe_plan_id: 'saasbase_business', name: 'SaaSBase Business', amount: 4999, interval: 'month', currency: 'usd', trial_period_days: 7)
-CreatePlan.call(stripe_plan_id: 'saasbase_enterprise', name: 'SaaSBase Enterprise', amount: 9999, interval: 'month', currency: 'usd', trial_period_days: 7)
+d1 = DateTime.now
+
+Branding.delete_all
+Branding.create!([{
+                   name: "LocatorApp",
+                   address_line_1: "line 1",
+                   address_line_2: "line 2",
+                   city: "Richmond",
+                   country: "Canada",
+                   postal_code: "V6Y1J5",
+                   created_at: d1,
+                   updated_at: d1
+               }])
+
+Plan.delete_all
+Plan.create!([{
+                  stripe_plan_id: "small_business",
+                  name: "Small Business",
+                  created_at: d1,
+                  updated_at: d1
+              }])
+Plan.create!([{
+                  stripe_plan_id: "office",
+                  name: "Office",
+                  created_at: d1,
+                  updated_at: d1
+              }])
+Plan.create!([{
+                  stripe_plan_id: "enterprise",
+                  name: "Enterprise",
+                  created_at: d1,
+                  updated_at: d1
+              }])
