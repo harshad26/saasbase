@@ -114,7 +114,7 @@ window.onload = function () {
   var response;
   var t,flag;
   var lat,lng;
-  
+  getLatLng();
   function getLocation() {
     if (navigator.geolocation) {
       var options = {timeout:60000};
@@ -153,19 +153,19 @@ window.onload = function () {
     var array = data['loc'].split(',');
     lat = array[0];
     lng = array[1];
-    // console.log('2:'+lat+'2:'+lng);
+    console.log('2:'+lat+'2:'+lng);
     initAutocomplete1();
   }
   function initAutocomplete() {
     if (lat == null && lng == null) {
-      // console.log('3:'+lat+'3:'+lng);
+      console.log('3:'+lat+'3:'+lng);
       getLatLng();
     }else{
       initAutocomplete1();
     }
   }  
   function initAutocomplete1() {
-    // console.log('1:'+lat+'1:'+lng);
+    console.log('1:'+lat+'1:'+lng);
     latLngA = new google.maps.LatLng(lat,lng);
 
     map = new google.maps.Map(document.getElementById('map'), {
