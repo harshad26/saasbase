@@ -152,16 +152,16 @@ window.onload = function () {
     var array = data['loc'].split(',');
     lat = array[0];
     lng = array[1];
-    initAutocomplete1();
+    // console.log('2:'+lat+'2:'+lng);
+
   }
-  function initAutocomplete() {}
-  function initAutocomplete1() {
+  function initAutocomplete() {
+    // console.log('1:'+lat+'1:'+lng);
+    latLngA = new google.maps.LatLng(lat,lng);
 
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
     });
-
-    latLngA = new google.maps.LatLng(lat,lng);
     map.setCenter(latLngA);
 
     var script2 = document.createElement('script');
