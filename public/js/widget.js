@@ -1,6 +1,7 @@
-window.onload = function () {
-  document.getElementById('loading').style.display = "none";
-}
+  window.onload = function () {
+    document.getElementById('loading').style.display = "none";
+  }
+  
   var mykey;
   var token = document
     .querySelector('script[data-id="MySaasbase"][data-saasbase-id]')
@@ -70,7 +71,6 @@ window.onload = function () {
   var saasbase_label = document.createElement('label');
   saasbase_label.setAttribute("for","saasbase_zip");
   saasbase_label.innerHTML ="Enter zip code or full address";
-  // saasbase_label.style.color = "red";
   saasbase_label.style.lineHeight = "30px";
   saasbase_label.style.fontWeight = "bold";
   saasbase_form.appendChild(saasbase_label);
@@ -114,9 +114,10 @@ window.onload = function () {
   var response;
   var t,flag;
   var lat,lng;
-  getLatLng();
+  getLocation();
   function getLocation() {
     if (navigator.geolocation) {
+      console.log("1");
       var options = {timeout:60000};
       navigator.geolocation.getCurrentPosition(
         function(position){
@@ -125,13 +126,12 @@ window.onload = function () {
           initAutocomplete1();
         },
         function(){
-          initAutocomplete1();
           console.log('we are unable to find ur geo location');
         },options
       );
     }
   }
-
+  
   function key_callback(response) {
     mykey = response.keys[0].key;
 
@@ -143,29 +143,26 @@ window.onload = function () {
     entry.parentNode.insertBefore(script, entry);    
   }
 
-  function getLatLng() {
-    var ipinfo = document.createElement('script');
-    ipinfo.src = "http://ipinfo.io?callback=parseResponse";
-    var ipinfoEntry = document.getElementsByTagName('script')[0];
-    ipinfoEntry.parentNode.insertBefore(ipinfo, ipinfoEntry);
-  }
-  function parseResponse(data) {
-    var array = data['loc'].split(',');
-    lat = array[0];
-    lng = array[1];
-    // console.log('2:'+lat+'2:'+lng);
-    // initAutocomplete1();
-  }
+  // function getLatLng() {
+  //   var ipinfo = document.createElement('script');
+  //   ipinfo.src = "http://ipinfo.io?callback=parseResponse";
+  //   var ipinfoEntry = document.getElementsByTagName('script')[0];
+  //   ipinfoEntry.parentNode.insertBefore(ipinfo, ipinfoEntry);
+  // }
+  // function parseResponse(data) {
+  //   var array = data['loc'].split(',');
+  //   lat = array[0];
+  //   lng = array[1];
+  // }
   function initAutocomplete() {
     if (lat == null && lng == null) {
-      // console.log('3:'+lat+'3:'+lng);
-      getLatLng();
+      getLocation();
     }else{
       initAutocomplete1();
     }
   }  
   function initAutocomplete1() {
-    // console.log('1:'+lat+'1:'+lng);
+    console.log("2");
     latLngA = new google.maps.LatLng(lat,lng);
 
     map = new google.maps.Map(document.getElementById('map'), {
