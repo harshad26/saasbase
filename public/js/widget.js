@@ -26,7 +26,7 @@
   iwstyle.innerHTML = '<div id="info-content"><table><tr id="iw-name-row" class="iw_table_row"><td id="iw-name"></td></tr><tr id="iw-address-row" class="iw_table_row"><td id="iw-address"></td></tr><tr id="iw-phone-row" class="iw_table_row"><td id="iw-phone"></td></tr></table></div>'
   x.parentNode.appendChild(iwstyle);
   var sheet = document.createElement('style');
-  sheet.innerHTML = "input { width: 90%; padding: 6px 12px; font-size: 14px; line-height: 1.42857143;color: #555555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;}table { font-size: 12px; }#listing {position: relative; width: auto; height: 417px; overflow: auto; cursor: pointer; overflow-x: hidden; }.placeIcon { width: 20px; height: 34px; margin: 4px; }#resultsTable { border-collapse: collapse; width: 100%; }td {padding-left:20px;}li {padding:2px;list-style:none;}li:first-child{font-weight:bold;padding:2px;}#iw-name-row {font-weight:bold;}#loading {width: 100%;height: 510px;top: 0;left: 0;position: fixed;display: block;background-color: #fff;z-index: 99;text-align: center;}#loading-image {position: absolute;top: 30%;left: 47%;z-index: 100;}";
+  sheet.innerHTML = "input { width: 90%; padding: 6px 12px; font-size: 14px; line-height: 1.42857143;color: #555555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;}table { font-size: 12px; }#listing {position: relative; width: auto; height: 417px; overflow: auto; cursor: pointer; overflow-x: hidden; }.placeIcon { width: 20px; height: 34px; margin: 4px; }#resultsTable { border-collapse: collapse; width: 100%; }td {padding-left:20px;}li {padding:2px;list-style:none;}li:first-child{font-weight:bold;padding:2px;}#iw-name-row {font-weight:bold;}#loading {width: 100%;height: 100%;top: 0;left: 0;position: absolute;display: block;background-color: #fff;z-index: 99;text-align: center;}#loading-image {position: absolute;top: 30%;left: 47%;z-index: 100;}";
   x.parentNode.appendChild(sheet);
 
   var loading = document.createElement('div');
@@ -56,6 +56,7 @@
   var saasbase_small = document.createElement('small');
   saasbase_small.style.color = "#666";
   saasbase_small.style.fontSize ="11px";
+  saasbase_small.style.float = "left";
   saasbase_small.innerText = "Powered by ";
   x.parentNode.appendChild(saasbase_small);
 
@@ -115,24 +116,8 @@
   var response;
   var t,flag;
   var lat,lng;
-  // getLocation();
-  getLatLng();
-  function getLocation() {
-    if (navigator.geolocation) {
-      console.log("1");
-      var options = {timeout:60000};
-      navigator.geolocation.getCurrentPosition(
-        function(position){
-          lat = position.coords.latitude;
-          lng = position.coords.longitude;
-          initAutocomplete1();
-        },
-        function(){
-          console.log('we are unable to find ur geo location');
-        },options
-      );
-    }
-  }
+
+
   
   function key_callback(response) {
     mykey = response.keys[0].key;
@@ -145,35 +130,49 @@
     entry.parentNode.insertBefore(script, entry);    
   }
 
-  function getLatLng() {
-    console.log("1");
-    var ipinfo = document.createElement('script');
-    ipinfo.src = "http://ipinfo.io?callback=parseResponse";
-    var ipinfoEntry = document.getElementsByTagName('script')[0];
-    ipinfoEntry.parentNode.insertBefore(ipinfo, ipinfoEntry);
+  getLocation();
+  function getLocation() {
+    if (navigator.geolocation) {
+      console.log("1");
+      var options = {timeout:60000};
+      navigator.geolocation.getCurrentPosition(
+        function(position){
+          lat = position.coords.latitude;
+          lng = position.coords.longitude;
+          console.log("location found");
+          latLngA = new google.maps.LatLng(lat,lng);
+          map.setCenter(latLngA);
+        },
+        function(){
+          console.log('we are unable to find ur geo location');
+        },options
+      );
+    }
   }
-  function parseResponse(data) {
-    var array = data['loc'].split(',');
-    lat = array[0];
-    lng = array[1];
-  }
+
+  // function getLatLng() {
+  //   var ipinfo = document.createElement('script');
+  //   ipinfo.src = "http://ipinfo.io?callback=parseResponse";
+  //   var ipinfoEntry = document.getElementsByTagName('script')[0];
+  //   ipinfoEntry.parentNode.insertBefore(ipinfo, ipinfoEntry);
+  // }
+
+  // function parseResponse(data) {
+  //   var array = data['loc'].split(',');
+  //   lat = array[0];
+  //   lng = array[1];
+  // }
+
   function initAutocomplete() {
     console.log("2");
-    if (lat == null && lng == null) {
-      getLatLng();
-    }else{
-      initAutocomplete1();
-    }
-  }  
-  function initAutocomplete1() {
-    console.log("3");
-    latLngA = new google.maps.LatLng(lat,lng);
 
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
     });
-    map.setCenter(latLngA);
+    initAutocomplete1();
+  }
 
+  function initAutocomplete1() {
     var script2 = document.createElement('script');
     script2.type  = 'text/javascript';
     script2.async = true;
@@ -208,14 +207,15 @@
 
   function eqfeed_callback(results) {
     response = results;
+    latLngA = new google.maps.LatLng(response.stores[0].lat,response.stores[0].long);
+    map.setCenter(latLngA);
+
     for (var i = 0; i < response.stores.length; i++) {
       var latLngT = new google.maps.LatLng(response.stores[i].lat,response.stores[i].long);
       var d = caldis(latLngT);
       response.stores[i].distance= d;
     }
-    eqfeed_callback1();
-  }
-  function eqfeed_callback1() {
+
     for (var i = 0; i < response.stores.length; i++) {
       var store = response.stores[i];
       var latLngT = new google.maps.LatLng(store.lat,store.long);
@@ -235,10 +235,8 @@
         document.getElementById('iw-phone').textContent = my_store.phone;
       });
     }
-    sortIt();
-  }
 
-  function sortIt() {
+    //sort the result
     response.stores = sortByKey(response.stores);
     for (var i = 0; i < response.stores.length; i++) {
       addResult(response, i);
