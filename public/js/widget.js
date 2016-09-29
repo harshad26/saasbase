@@ -145,7 +145,7 @@
         },
         function(){
           console.log('we are unable to find ur geo location');
-        },options
+        }
       );
     }
   }
