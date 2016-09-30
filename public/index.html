@@ -149,18 +149,16 @@
                     <h2>Add Store Locators in Minutes</h2>
                     <hr class="primary">
 
-                    <div id='saasbase'><p>Store Locator is loading from <a href='https://www.saasbase.com'>Saasbase
-                        store locator software</a>...</p></div>
-                    <script data-id="MySaasbase" data-saasbase-id='2'
-                            data-saasbase-host="/">(function () {
-                        var host = location.protocol + '//' + location.hostname
-                        var script = document.createElement('script');
-                        script.type = 'text/javascript';
-                        script.async = true;
-                        script.src = '/js/widget.js';
-                        var entry = document.getElementsByTagName('script')[0];
-                        entry.parentNode.insertBefore(script, entry);
-                    }());</script>
+                    <div id='saasbase'>
+                        <p>Store Locator is loading from <a href='https://www.saasbase.com'>Saasbase store locator software</a>...
+                        </p></div><script data-id="MySaasbase" data-saasbase-id='2' data-saasbase-host='https://locatorapp-staging.herokuapp.com/'>(function () {
+                    var script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.async = true;
+                    script.src = 'https://locatorapp-staging.herokuapp.com/js/widget.js';
+                    var entry = document.getElementsByTagName('script')[0];
+                    entry.parentNode.insertBefore(script, entry);
+                }());</script>
                 </div>
             </div>
         </div>
@@ -316,8 +314,8 @@
                         <!-- ICON USAGE: The icons in this example are generated using Font Awesome unicodes. To use different icons you will need to create a custom CSS class like the ones used below (ex. icon-code, or icon-envelope-o). -->
                         <li class="item">
                             <span class="icon icon-code"></span>
-                            <h3>Easy to Use</h3>
-                            <p>SaaSbase's code is written in easy to use, HTML code blocks.</p>
+                            <h3>I don't know how to code, can I still use it?</h3>
+                            <p>Yes. Setup is as easy as copy and paste.</p>
                         </li>
                         <li class="item">
                             <span class="icon icon-envelope-o"></span>
