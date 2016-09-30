@@ -76,7 +76,7 @@ class StoresController < ApplicationController
   end
 
   def destroy_multiple
-    Store.where(id: params[:stores]).destroy_all
+    Store.where(id: params[:stores]).delete_all
     respond_to do |format|
       format.html { redirect_to stores_url, notice: 'Store was successfully destroyed.' }
       format.json { head :no_content }
@@ -84,7 +84,7 @@ class StoresController < ApplicationController
   end
 
   def destroy_all
-    Store.where(account_id: current_user.account_id).destroy_all
+    Store.where(account_id: current_user.account_id).delete_all
     respond_to do |format|
       format.html { redirect_to stores_url, notice: 'Store was successfully destroyed.' }
       format.json { head :no_content }

@@ -142,6 +142,7 @@
           console.log("location found");
           latLngA = new google.maps.LatLng(lat,lng);
           map.setCenter(latLngA);
+          search();
         },
         function(){
           console.log('we are unable to find ur geo location');
@@ -166,13 +167,15 @@
   function initAutocomplete() {
     console.log("2");
 
+    latLngA = new google.maps.LatLng(0,0);
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12
     });
-    initAutocomplete1();
-  }
+    map.setCenter(latLngA);
 
-  function initAutocomplete1() {
+    if (lat != null && lng != null) {
+    }
+
     var script2 = document.createElement('script');
     script2.type  = 'text/javascript';
     script2.async = true;
@@ -207,8 +210,6 @@
 
   function eqfeed_callback(results) {
     response = results;
-    latLngA = new google.maps.LatLng(response.stores[0].lat,response.stores[0].long);
-    map.setCenter(latLngA);
 
     for (var i = 0; i < response.stores.length; i++) {
       var latLngT = new google.maps.LatLng(response.stores[i].lat,response.stores[i].long);
@@ -235,11 +236,24 @@
         document.getElementById('iw-phone').textContent = my_store.phone;
       });
     }
+  }
 
+  function sortResult() {
+    var count = 0;
     //sort the result
     response.stores = sortByKey(response.stores);
     for (var i = 0; i < response.stores.length; i++) {
-      addResult(response, i);
+      d = response.stores[i].distance;
+      if (d <25) {
+        setTimeout(dropMarker(i), i * 100);
+        addResult(response, i);
+        count++;
+      }
+    }
+    if (count == 0) {
+      document.getElementById('saasbase_span').style.display = 'block';
+    } else {
+      document.getElementById('saasbase_span').style.display = 'none';
     }
   }
 
@@ -250,7 +264,7 @@
   }
 
   function search() {
-    var count = 0;
+    
     for (var i = 0; i < response.stores.length; i++) {
       var store = response.stores[i];
       var latLngT = new google.maps.LatLng(store.lat,store.long);
@@ -271,19 +285,9 @@
       	document.getElementById('iw-name').textContent = my_store.name;
       	document.getElementById('iw-address').textContent = my_store.address;
       	document.getElementById('iw-phone').textContent = my_store.phone;
-
       });
-      if (d <10) {
-        setTimeout(dropMarker(i), i * 100);
-        addResult(response, i);
-        count++;
-      }
     }
-    if (count == 0) {
-      document.getElementById('saasbase_span').style.display = 'block';
-    } else {
-      document.getElementById('saasbase_span').style.display = 'none';
-    }
+    sortResult();
     
   }
 
