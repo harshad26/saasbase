@@ -63,6 +63,12 @@ class StoresController < ApplicationController
   # PATCH/PUT /stores/1
   # PATCH/PUT /stores/1.json
   def update
+    if params[:store]['lat'] == ''
+      params[:store]['lat'] = 'geo-coding'
+    end
+    if params[:store]['long'] == ''
+      params[:store]['long'] = 'geo-coding'
+    end
     respond_to do |format|
       if @store.update(store_params)
         format.html { redirect_to stores_url, notice: 'Store was successfully updated.' }
@@ -171,9 +177,11 @@ class StoresController < ApplicationController
         stores[i].lat = res[i].latitude.round(5)
         stores[i].long = res[i].longitude.round(5)
         stores[i].update params[:store]
-        console.log(stores[i].inspect)
+        if i == (stores.length - 1)
+          puts 'geocode done'
+          UserMailer.geocode_complete(current_user).deliver_now
+        end
       end
-      console.log('geocoding done')
     end
   end
 
