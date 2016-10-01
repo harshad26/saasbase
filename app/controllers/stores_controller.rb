@@ -5,10 +5,19 @@ class StoresController < ApplicationController
   # GET /stores.json
   def index
     if params[:search]
-      @stores = Store.where("account_id = ?",current_user.account_id).search(params[:search])
+      @stores = Store.where("account_id = ?",current_user.account_id).search(params[:search]).paginate(:page => params[:page])
+    elsif params[:problems] == 'true'
+      @stores = Store.where("lat = ? or long = ?", 'geo-coding', 'geo-coding' ).paginate(:page => params[:page])
     else
-      @stores = Store.all.where("account_id = ?",current_user.account_id) if current_user
-      @stores = Store.paginate(:page => params[:page])
+      @stores = Store.all.where("account_id = ?",current_user.account_id).paginate(:page => params[:page]) if current_user
+      # @stores = Store.paginate(:page => params[:page])
+    end
+    test = Store.all.where("lat = ? or long = ?","geo-coding","geo-coding")
+    if test.count > 0
+      @c = test.count
+      @display = true
+    else
+      @display = false
     end
     respond_to do |format|
       format.html
@@ -98,38 +107,31 @@ class StoresController < ApplicationController
   def import
     file = params[:file].path
 
+    batch,batch_size = [], 1_000 
     CSV.foreach(file, {:headers => true, :encoding => 'ISO-8859-1'}) do |row|
-      # newRow = []
-      # cnt = 0
-      # 0..row.count do |n|
-      #   # abort row[cnt].inspect if cnt==3
-      #   tmp = row[cnt].split "\t"
-      #   # abort tmp.inspect if cnt==3
-      #   newRow = newRow + tmp
+      row << { 'account_id' => current_user.account_id }
 
-      #   cnt+=1
-      # end
+      hash = row.to_hash
+      hash['name'] = hash.delete('Name')
+      hash['address'] = hash.delete('Address')
+      hash['phone'] = hash.delete('PhoneNumber')
+      
+      if hash['lat'] == nil
+        hash['lat'] = 'geo-coding'
+      end
+      if hash['long'] == nil
+        hash['long'] = 'geo-coding'
+      end
 
-      store = Store.where(id: row["id"]).first || new
-      # Store.create!(row.to_hash)
-      # store.attributes = row.to_hash.slice(*row.to_hash.keys)
-      store.name = row[1]
-      store.address = row[2]
-      store.phone = row[3]
-      store.email = row[4]
-      store.url = row[5]
-      store.description = row[6]
-      store.categories = row[7]
-      store.custom_field_1 = row[8]
-      store.custom_field_2 = row[9]
-      store.custom_field_3 = row[10]
-      store.image_url = row[11]
-      store.custom_marker_url = row[12]
-      store.lat = row[12]
-      store.long = row[14]
-      store.account_id = current_user.account_id
-      store.save!
-    end    
+      batch << Store.new(hash)
+
+      if batch.size >= batch_size
+        Store.import batch
+        batch = []
+      end
+
+    end
+    Store.import batch
 
     respond_to do |format|
       format.html { redirect_to stores_url, notice: 'Store was successfully imported.' }
@@ -139,7 +141,7 @@ class StoresController < ApplicationController
 
   def mapdata
     @stores = Store.all.where("account_id = ?",params[:id]);
-    output = 'eqfeed_callback('+{stores: @stores}.to_json+');'
+    output = 'feed_callback('+{stores: @stores}.to_json+');'
     respond_to do |format|
       format.js { render :json => output }
     end
@@ -151,11 +153,27 @@ class StoresController < ApplicationController
     
     key = @setting.google_api_key
     if key == nil
-      key = '123'
+      key = '000'
     end
     output = 'key_callback({"keys":[{"key":"'+key+'"}]});'
     respond_to do |format|
       format.js { render :json => output }
+    end
+  end
+
+  def geocode
+    res = []
+    stores = Store.all.where("lat = ? or long = ?","geo-coding","geo-coding")
+    redirect_to stores_url, notice: 'Your imported stores are being geocoded in the background. We will send you an email notification when it is complete. Email Support with any questions.'
+    Thread.new do
+      (0..stores.length).each do |i|
+        res[i] =  Geokit::Geocoders::MultiGeocoder.geocode(stores[i].address)
+        stores[i].lat = res[i].latitude.round(5)
+        stores[i].long = res[i].longitude.round(5)
+        stores[i].update params[:store]
+        console.log(stores[i].inspect)
+      end
+      console.log('geocoding done')
     end
   end
 

@@ -25,7 +25,6 @@
   </div>
 </div>
 
-
 <div class="row">
   <form accept-charset="UTF-8" action="/stores" class="form-search" id="search-form" method="get">
     <div style="margin:0;padding:0;display:inline">
@@ -39,6 +38,17 @@
       <a href="/stores" class="btn btn-default btn-group clear-search">Clear</a>
     </div>
   </form>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <% if @display == true && params[:problems] != 'true' %>
+      <p class="alert alert-danger"><a href="/stores?problems=true">View <%= @c %> ungeocoded stores</a></p>
+    <% end %>
+    <% if params[:problems] == 'true' %>
+      <p class="alert alert-success"><a href="/stores">Show all stores</a> or <a href="/geocode">Click to retry geocoding</a></p>
+    <% end %>
+  </div>
 </div>
 
 <div class="row">

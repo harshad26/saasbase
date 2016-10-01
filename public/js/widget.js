@@ -26,7 +26,7 @@
   iwstyle.innerHTML = '<div id="info-content"><table><tr id="iw-name-row" class="iw_table_row"><td id="iw-name"></td></tr><tr id="iw-address-row" class="iw_table_row"><td id="iw-address"></td></tr><tr id="iw-phone-row" class="iw_table_row"><td id="iw-phone"></td></tr></table></div>'
   x.parentNode.appendChild(iwstyle);
   var sheet = document.createElement('style');
-  sheet.innerHTML = "input { width: 90%; padding: 6px 12px; font-size: 14px; line-height: 1.42857143;color: #555555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;}table { font-size: 12px; }#listing {position: relative; width: auto; height: 417px; overflow: auto; cursor: pointer; overflow-x: hidden; }.placeIcon { width: 20px; height: 34px; margin: 4px; }#resultsTable { border-collapse: collapse; width: 100%; }td {padding-left:20px;}li {padding:2px;list-style:none;}li:first-child{font-weight:bold;padding:2px;}#iw-name-row {font-weight:bold;}#loading {width: 100%;height: 100%;top: 0;left: 0;position: absolute;display: block;background-color: #fff;z-index: 99;text-align: center;}#loading-image {position: absolute;top: 30%;left: 47%;z-index: 100;}";
+  sheet.innerHTML = "input { width: 90%; padding: 6px 12px; font-size: 14px; line-height: 1.42857143;color: #555555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;}table { font-size: 12px; }#listing {position: relative; width: auto; cursor: pointer; overflow-x: hidden; }.placeIcon { width: 20px; height: 34px; margin: 4px; }#resultsTable { border-collapse: collapse; width: 100%; }td {padding-left:20px;}li {padding:2px;list-style:none;}li:first-child{font-weight:bold;padding:2px;}#iw-name-row {font-weight:bold;}#loading {width: 100%;height: 100%;top: 0;left: 0;position: absolute;display: block;background-color: #fff;z-index: 99;text-align: center;}#loading-image {position: absolute;top: 30%;left: 47%;z-index: 100;}";
   x.parentNode.appendChild(sheet);
 
   var loading = document.createElement('div');
@@ -45,6 +45,7 @@
   saasbase_left.style.height = "500px";
   saasbase_left.style.width = "33%";
   saasbase_left.style.float = "left";
+  saasbase_left.style.overflow = "auto";
 
   var saasbase_right = document.createElement('div');
   saasbase_right.id = 'saasbase-right';
@@ -142,6 +143,7 @@
           console.log("location found");
           latLngA = new google.maps.LatLng(lat,lng);
           map.setCenter(latLngA);
+          map.setZoom(12);
           search();
         },
         function(){
@@ -165,11 +167,10 @@
   // }
 
   function initAutocomplete() {
-    console.log("2");
 
     latLngA = new google.maps.LatLng(0,0);
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 12
+      zoom: 1
     });
     map.setCenter(latLngA);
 
@@ -208,7 +209,7 @@
     });
   }
 
-  function eqfeed_callback(results) {
+  function feed_callback(results) {
     response = results;
 
     for (var i = 0; i < response.stores.length; i++) {
@@ -245,7 +246,7 @@
     for (var i = 0; i < response.stores.length; i++) {
       d = response.stores[i].distance;
       if (d <25) {
-        setTimeout(dropMarker(i), i * 100);
+        // setTimeout(dropMarker(i), i * 100);
         addResult(response, i);
         count++;
       }
@@ -274,7 +275,8 @@
 
       markers[i] = new google.maps.Marker({
         position: latLngT,
-        animation: google.maps.Animation.DROP
+        animation: google.maps.Animation.DROP,
+        map: map
       });
         
       google.maps.event.addListener(markers[i], 'click', function(){
@@ -326,7 +328,7 @@
 
     var name = document.createTextNode(result.stores[i].name);
     var address = document.createTextNode(result.stores[i].address);
-    var phone = document.createTextNode(result.stores[i].phone);
+    var phone = document.createTextNode('Ph : ' + result.stores[i].phone);
     var distance = document.createTextNode( result.stores[i].distance+ ' kms away');
 
     var nameLi = document.createElement('li');
