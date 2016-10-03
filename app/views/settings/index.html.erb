@@ -7,7 +7,33 @@
       <div class="panel-heading">Settings</div>
       <div class="panel-body">
         <%= form_for @api_key do |f| %>
-
+            <div class="form-group">
+              <%= f.label "Use kilometers for distance" %>
+              <%= f.select :distance_unit, [ 'Yes', 'No' ],{}, { class: 'form-control'} %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Enter a start location" %>
+              <%= f.text_field :start_location, autofocus: true,
+                               placeholder: "", class: 'input-medium form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Map starting zoom level" %>
+              <%= f.text_field :zoom_level, autofocus: true,
+                               placeholder: "", class: 'input-medium form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Show distance selector so user can decide the search radius" %>
+              <%= f.select :show_radius, [ 'Yes', 'No' ], {}, { class: 'form-control'} %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Set a default search radius" %>
+              <%= f.text_field :default_radius, autofocus: true,
+                               placeholder: "", class: 'input-medium form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label "Limit the number of results returned per search" %>
+              <%= f.select :numOf_results, [ '2', '5', '10', '15', '25','50' ], {}, { class: 'form-control'}  %>
+            </div>
             <div class="form-group">
               <%= f.label "Google Maps API Key" %>
               <%= f.text_field :google_api_key, autofocus: true,

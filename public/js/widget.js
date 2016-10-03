@@ -17,7 +17,7 @@
   var keyscript = document.createElement('script');
   keyscript.type  = 'text/javascript';
   keyscript.async = true;
-  keyscript.src = host+'/find_key/'+token;
+  keyscript.src = host+'find_key/'+token;
   var keyentry = document.getElementsByTagName('script')[0];
   keyentry.parentNode.insertBefore(keyscript, keyentry);
 
@@ -26,7 +26,7 @@
   iwstyle.innerHTML = '<div id="info-content"><table><tr id="iw-name-row" class="iw_table_row"><td id="iw-name"></td></tr><tr id="iw-address-row" class="iw_table_row"><td id="iw-address"></td></tr><tr id="iw-phone-row" class="iw_table_row"><td id="iw-phone"></td></tr></table></div>'
   x.parentNode.appendChild(iwstyle);
   var sheet = document.createElement('style');
-  sheet.innerHTML = "input { width: 90%; padding: 6px 12px; font-size: 14px; line-height: 1.42857143;color: #555555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;}table { font-size: 12px; }#listing {position: relative; width: auto; cursor: pointer; overflow-x: hidden; }.placeIcon { width: 20px; height: 34px; margin: 4px; }#resultsTable { border-collapse: collapse; width: 100%; }td {padding-left:20px;}li {padding:2px;list-style:none;}li:first-child{font-weight:bold;padding:2px;}#iw-name-row {font-weight:bold;}#loading {width: 100%;height: 100%;top: 0;left: 0;position: absolute;display: block;background-color: #fff;z-index: 99;text-align: center;}#loading-image {position: absolute;top: 30%;left: 47%;z-index: 100;}";
+  sheet.innerHTML = "input, select { display: block;width: 90%; padding: 5px 12px; font-size: 14px; line-height: 1.42857143;color: #555555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;}table { font-size: 12px; }#listing {position: relative; width: auto; cursor: pointer; overflow-x: hidden; }.placeIcon { width: 20px; height: 34px; margin: 4px; }#resultsTable { border-collapse: collapse; width: 100%; }td {padding-left:20px;text-align:left;}li {padding:2px;list-style:none;}li:first-child{font-weight:bold;padding:2px;}#iw-name-row {font-weight:bold;}#loading {width: 100%;height: 100%;top: 0;left: 0;position: absolute;display: block;background-color: #fff;z-index: 99;text-align: center;}#loading-image {position: absolute;top: 30%;left: 47%;z-index: 100;}";
   x.parentNode.appendChild(sheet);
 
   var loading = document.createElement('div');
@@ -71,12 +71,56 @@
   saasbase_form.style.margin = "10px";
   saasbase_left.appendChild(saasbase_form);
 
-  var saasbase_label = document.createElement('label');
-  saasbase_label.setAttribute("for","saasbase_zip");
-  saasbase_label.innerHTML ="Enter zip code or full address";
-  saasbase_label.style.lineHeight = "30px";
-  saasbase_label.style.fontWeight = "bold";
-  saasbase_form.appendChild(saasbase_label);
+  var saasbase_label1 = document.createElement('label');
+  saasbase_label1.setAttribute("for","saasbase_radius");
+  saasbase_label1.innerHTML ="Search Radius";
+  saasbase_label1.style.fontSize = "13px";
+  saasbase_label1.style.fontWeight = "bold";
+  saasbase_label1.style.float = "left";
+  saasbase_form.appendChild(saasbase_label1);
+
+  var saasbase_radius = document.createElement('select');
+  saasbase_radius.placeholder ="Enter your address";
+  saasbase_radius.id = 'saasbase_radius';
+  saasbase_form.appendChild(saasbase_radius);
+
+  var option1 = document.createElement('option');
+  saasbase_radius.appendChild(option1);
+  option1.value = '5';
+  var t1 = document.createTextNode("5");
+  option1.appendChild(t1);
+
+  var option2 = document.createElement('option');
+  saasbase_radius.appendChild(option2);
+  option2.value = '25';
+  var t2 = document.createTextNode("25");
+  option2.appendChild(t2);
+
+  var option3 = document.createElement('option');
+  saasbase_radius.appendChild(option3);
+  option3.value = '50';
+  var t3 = document.createTextNode("50");
+  option3.appendChild(t3);
+
+  var option4 = document.createElement('option');
+  saasbase_radius.appendChild(option4);
+  option4.value = '150';
+  var t4 = document.createTextNode("150");
+  option4.appendChild(t4);
+
+  var option5 = document.createElement('option');
+  saasbase_radius.appendChild(option5);
+  option5.value = '250';
+  var t5 = document.createTextNode("250");
+  option5.appendChild(t5);
+
+  var saasbase_label2 = document.createElement('label');
+  saasbase_label2.setAttribute("for","saasbase_zip");
+  saasbase_label2.innerHTML ="Enter zip code or full address";
+  saasbase_label2.style.fontSize = "13px";
+  saasbase_label2.style.fontWeight = "bold";
+  saasbase_label2.style.float = "left";
+  saasbase_form.appendChild(saasbase_label2);
 
   var saasbase_zip = document.createElement('input');
   saasbase_zip.placeholder ="Enter your address";
@@ -117,18 +161,48 @@
   var response;
   var t,flag;
   var lat,lng;
+  var temp = document.getElementById('saasbase_radius');
+  var rad = temp.value;
+  var distance_unit, start_location, zoom_level, show_radius,default_radius, numOf_results;
 
+  function setting_callback(response) {
+    mykey = response.settings.google_api_key;
+    distance_unit = response.settings.distance_unit;
+    start_location = response.settings.start_location;
+    zoom_level = response.settings.zoom_level;
+    show_radius = response.settings.show_radius;
+    default_radius = response.settings.default_radius;
+    numOf_results = response.settings.numOf_results;
 
-  
-  function key_callback(response) {
-    mykey = response.keys[0].key;
+    if (show_radius == 'No') {
+      saasbase_label1.style.display = "none";
+      saasbase_radius.style.display = "none";
+      rad = default_radius
+    } else {
+      temp.onchange = function() {
+        rad = this.value;
+      };
+    }
 
     var script = document.createElement('script');
     script.type  = 'text/javascript';
     script.async = true;
     script.src = document.location.protocol + '//maps.googleapis.com/maps/api/js?key='+mykey+'&libraries=geometry,places&callback=initAutocomplete';
     var entry = document.getElementsByTagName('script')[0];
-    entry.parentNode.insertBefore(script, entry);    
+    entry.parentNode.insertBefore(script, entry);
+  }
+
+  //geocode starting location for lat lng
+  function geocodeAddress(geocoder, resultsMap) {
+    var address = start_location;
+    geocoder.geocode({'address': address}, function(results, status) {
+      if (status === 'OK') {
+        resultsMap.setCenter(results[0].geometry.location);
+
+      } else {
+        console.log('Geocode was not successful for the following reason: ' + status);
+      }
+    });
   }
 
   getLocation();
@@ -143,7 +217,7 @@
           console.log("location found");
           latLngA = new google.maps.LatLng(lat,lng);
           map.setCenter(latLngA);
-          map.setZoom(12);
+          map.setZoom(zoom_level);
           search();
         },
         function(){
@@ -170,17 +244,20 @@
 
     latLngA = new google.maps.LatLng(0,0);
     map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 1
+      zoom: zoom_level,
     });
     map.setCenter(latLngA);
+    var geocoder = new google.maps.Geocoder();
+    geocodeAddress(geocoder, map);
 
     if (lat != null && lng != null) {
+      console.log("lat or lng null");
     }
 
     var script2 = document.createElement('script');
     script2.type  = 'text/javascript';
     script2.async = true;
-    script2.src = host+'/mapdata/'+token;
+    script2.src = host+'mapdata/'+token;
     keyentry.parentNode.insertBefore(script2, keyentry);
 
     infowindow = new google.maps.InfoWindow({
@@ -197,7 +274,7 @@
        latLngA = new google.maps.LatLng(lat1,lng1);
         if (place.geometry) {
           map.panTo(place.geometry.location);
-          map.setZoom(12);
+          map.setZoom(zoom_level);
           
           clearResults();
           clearMarkers();
@@ -223,8 +300,7 @@
       var latLngT = new google.maps.LatLng(store.lat,store.long);
       
       markers[i] = new google.maps.Marker({
-        position: latLngT,
-        map: map
+        position: latLngT
       });
 
       google.maps.event.addListener(markers[i], 'click', function(){
@@ -245,10 +321,15 @@
     response.stores = sortByKey(response.stores);
     for (var i = 0; i < response.stores.length; i++) {
       d = response.stores[i].distance;
-      if (d <25) {
+      if (Math.round(d) < Math.round(rad)) {
+        console.log('d:'+d+',rad:'+rad)
         // setTimeout(dropMarker(i), i * 100);
+        setTimeout(dropMarker(i), i );
         addResult(response, i);
         count++;
+      }
+      if (count == numOf_results) {
+        break;
       }
     }
     if (count == 0) {
@@ -275,8 +356,7 @@
 
       markers[i] = new google.maps.Marker({
         position: latLngT,
-        animation: google.maps.Animation.DROP,
-        map: map
+        // animation: google.maps.Animation.DROP
       });
         
       google.maps.event.addListener(markers[i], 'click', function(){
@@ -295,7 +375,11 @@
 
   function caldis(temp) {
   	var x = google.maps.geometry.spherical.computeDistanceBetween (latLngA, temp);
-  	return (x/1000).toFixed(1);
+    if (distance_unit == 'Yes') {
+      return (x*0.001).toFixed(1);
+    } else if (distance_unit == 'No') {
+      return (x*0.000621371).toFixed(1);
+    }
   }
 
   function clearMarkers() {
@@ -316,6 +400,12 @@
 
   function addResult(result, i) {
     var results = document.getElementById('results');
+    var unit;
+    if (distance_unit == 'Yes') {
+      unit = 'kms';
+    } else if (distance_unit == 'No') {
+      unit = 'miles';
+    }
 
     var tr = document.createElement('tr');
     tr.style.borderBottom = "1px solid #eee";
@@ -329,7 +419,7 @@
     var name = document.createTextNode(result.stores[i].name);
     var address = document.createTextNode(result.stores[i].address);
     var phone = document.createTextNode('Ph : ' + result.stores[i].phone);
-    var distance = document.createTextNode( result.stores[i].distance+ ' kms away');
+    var distance = document.createTextNode( result.stores[i].distance+' '+unit+' away');
 
     var nameLi = document.createElement('li');
     nameTd.appendChild(nameLi);

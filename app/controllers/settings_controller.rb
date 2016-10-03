@@ -32,6 +32,6 @@ class SettingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def api_key_params
-      params.require(:setting).permit(:google_api_key)
+      params.require(:setting).permit(:distance_unit, :start_location, :zoom_level, :show_radius, :default_radius, :numOf_results, :google_api_key)
     end
 end
